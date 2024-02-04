@@ -23,7 +23,11 @@ const TableBarang = (props) => {
               <button type="button" className="btn btn-success">
                 <i className="fa-solid fa-pen-to-square" />
               </button>
-              <button type="button" className="btn btn-danger">
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => props.handleDelete(item.id)}
+              >
                 <i className="fa-solid fa-trash-can" />
               </button>
             </td>
