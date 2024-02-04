@@ -6,6 +6,7 @@ import Pembelian from "./pages/Pembelian.jsx";
 import Laporan from "./pages/Laporan.jsx";
 import Ecer from "./pages/Ecer.jsx";
 import Barang from "./pages/Barang.jsx";
+import Kategori from "./pages/Kategori.jsx";
 
 function App() {
   /* const [count, setCount] = useState(0); */
@@ -20,6 +21,7 @@ function App() {
           <Route path="/pembelian/ecer" element={<Ecer />} />
           <Route path="/laporan" element={<Laporan />} />
           <Route path="/barang" element={<Barang />} />
+          <Route path="/kategori" element={<Kategori />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </Router>

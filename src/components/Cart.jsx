@@ -6,20 +6,24 @@ const Cart = (props) => {
   const [totalHarga, setTotalHarga] = useState(0);
 
   useEffect(() => {
-    props.barang.map((item) =>
-      item.id === props.pilih
-        ? setCart([
-            ...cart,
-            {
-              id: item.id,
-              nama_barang: item.nama_barang,
-              harga: item.harga,
-              qty: 1,
-              total: 0,
-            },
-          ])
-        : null
-    );
+    if (Object.prototype.hasOwnProperty.call(cart, props.pilih)) {
+      //terdefinisi // isset = true
+    } else {
+      props.barang.map((item) =>
+        item.id === props.pilih
+          ? setCart([
+              ...cart,
+              {
+                id: item.id,
+                nama_barang: item.nama_barang,
+                harga: item.harga,
+                qty: 1,
+                total: 0,
+              },
+            ])
+          : null
+      );
+    }
   }, [props.pilih]);
 
   useEffect(() => {

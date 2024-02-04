@@ -46,13 +46,14 @@ const Sidebar = () => {
               </a>
               <ul className="nav nav-treeview ml-3">
                 <li className="nav-item">
-                  <a
-                    href="{{route('kategori.index')}}"
-                    className="nav-link {{ request()->routeIs('kategori.index') ? 'active' : '' }}"
+                  <NavLink
+                    to="/kategori"
+                    className="nav-link"
+                    activeClassName="active"
                   >
                     <i className="fa-solid fa-layer-group" />
                     <p>Kategori</p>
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
                   <NavLink
@@ -66,7 +67,7 @@ const Sidebar = () => {
                 </li>
               </ul>
             </li>
-            <li className="nav-item {{ request()->routeIs('kategoriBengkel.index') || request()->routeIs('barangBengkel.index') ? 'menu-open' : '' }}">
+            {/* <li className="nav-item {{ request()->routeIs('kategoriBengkel.index') || request()->routeIs('barangBengkel.index') ? 'menu-open' : '' }}">
               <a href="#" className="nav-link">
                 <i className="fa-solid fa-warehouse" />
                 <p>
@@ -95,15 +96,8 @@ const Sidebar = () => {
                   </a>
                 </li>
               </ul>
-            </li>
+            </li> */}
             <li className="nav-item">
-              {/* <a
-                href="{{route('pembelian.index')}}"
-                className="nav-link {{ request()->routeIs('pembelian.index') ? 'active' : '' }}"
-              >
-                <i className="fa-solid fa-cart-shopping" />
-                <p>Laporan</p>
-              </a> */}
               <NavLink
                 to="/laporan"
                 className="nav-link"
