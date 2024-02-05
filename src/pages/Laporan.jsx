@@ -5,7 +5,23 @@ const Laporan = () => {
   const [laporan, setLaporan] = useState([]);
 
   const [limit, setLimit] = useState(10);
+  const [from, setFrom] = useState(0);
+  const [to, setTo] = useState(10);
   const [search, setSearch] = useState("");
+  const [index, setIndex] = useState(0);
+
+  const handleNext = () => {
+    if (to < laporan.length) {
+      setFrom(from + 10);
+      setTo(to + 10);
+    }
+  };
+  const handlePrev = () => {
+    if (from !== 0) {
+      setFrom(from - 10);
+      setTo(to - 10);
+    }
+  };
 
   const getData = async () => {
     await fetch("http://seroja.test/api/pembelian")
@@ -31,6 +47,7 @@ const Laporan = () => {
 
   useEffect(() => {
     getData();
+    console.log(to);
   }, []);
 
   return (
@@ -105,9 +122,9 @@ const Laporan = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredData.slice(0, limit).map((item, index) => (
+              {filteredData.slice(from, to).map((item, index) => (
                 <tr className="text-capitalize" key={index}>
-                  <td>{index + 1}</td>
+                  <td>{index + 1 + from}</td>
                   <td>{formatDate(item.created_at)}</td>
                   <td>{item.nama_barang}</td>
                   <td>{item.total_item}</td>
@@ -124,6 +141,21 @@ const Laporan = () => {
               ))}
             </tbody>
           </table>
+          <div className="d-flex flex-row items-center">
+            <button
+              className="mr-2 btn border border-info rounded-xl mr-2"
+              onClick={(e) => handlePrev(e)}
+            >
+              Previous
+            </button>
+            <p className="mr-2 align-middle">Page:</p>
+            <button
+              className=" btn border border-info rounded-xl mr-2"
+              onClick={(e) => handleNext(e)}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </Layout>
