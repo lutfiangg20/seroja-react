@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Test from "./pages/Test.jsx";
+/* import Test from "./pages/Test.jsx"; */
 import About from "./pages/About.jsx";
 import NoPage from "./pages/NoPage.jsx";
 import Pembelian from "./pages/Pembelian.jsx";
@@ -15,7 +15,7 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<Test />} />
+          <Route path="/" element={<Ecer />} />
           <Route path="/about" element={<About />} />
           <Route path="/pembelian" element={<Pembelian />} />
           <Route path="/pembelian/ecer" element={<Ecer />} />

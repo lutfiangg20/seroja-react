@@ -28,6 +28,7 @@ const Laporan = () => {
       .then((res) => res.json())
       .then((data) => {
         setLaporan(data);
+        console.log(data);
       });
   };
 
