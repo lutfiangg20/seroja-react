@@ -1,25 +1,58 @@
+import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
+import TambahKategori from "../components/TambahKategori";
 
 const Kategori = () => {
+  const [kategori, setKategori] = useState([]);
+  const [addkategori, setAddKategori] = useState("");
+
+  const getKategori = async () => {
+    await fetch("http://localhost:3000/kategori")
+      .then((res) => res.json())
+      .then((data) => {
+        setKategori(data);
+      });
+  };
+
+  useEffect(() => {
+    getKategori();
+  }, []);
+
+  const handleTambah = (e) => {
+    e.preventDefault();
+    fetch("http://localhost:3000/kategori", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ nama_kategori: addkategori }),
+    })
+      .then(() => {
+        getKategori();
+        setAddKategori("");
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleDelete = (nama) => {
+    fetch(`http://localhost:3000/kategori/${nama}`, {
+      method: "delete",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then(() => {
+        getKategori();
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <Layout>
-      <div className="card" style={{}}>
-        <div className="card-body">
-          <div className="form-group row">
-            <div className="col-sm-10">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Nama Kategori"
-                aria-describedby="emailHelp"
-              />
-            </div>
-            <button className="btn btn-success float-end col-sm-2">
-              <i className="fa-solid fa-circle-plus" /> Tambah
-            </button>
-          </div>
-        </div>
-      </div>
+      <TambahKategori
+        handleTambah={handleTambah}
+        setAddKategori={setAddKategori}
+      />
       <div className="card">
         <div className="card-body">
           <div className="row">
@@ -55,18 +88,24 @@ const Kategori = () => {
               </tr>
             </thead>
             <tbody>
-              <tr className="text-capitalize">
-                <td></td>
-                <td></td>
-                <td>
-                  <button type="button" className="btn btn-success">
-                    <i className="fa-solid fa-pen-to-square" />
-                  </button>
-                  <button type="button" className="btn btn-danger">
-                    <i className="fa-solid fa-trash-can" />
-                  </button>
-                </td>
-              </tr>
+              {kategori.map((item, index) => (
+                <tr className="text-capitalize" key={index}>
+                  <td>{index + 1}</td>
+                  <td>{item.nama_kategori}</td>
+                  <td>
+                    <button type="button" className="btn btn-success">
+                      <i className="fa-solid fa-pen-to-square" />
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(item.nama_kategori)}
+                    >
+                      <i className="fa-solid fa-trash-can" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

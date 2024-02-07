@@ -15,30 +15,35 @@ const Barang = () => {
   const handleInput = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    console.log(e.target);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await fetch("http://localhost:3001/api/barang", {
+    await fetch("http://localhost:3000/barang", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
-    });
-    getBarang();
-    setFormData({
-      nama_barang: "",
-      kategori: "",
-      stok: "",
-      harga: "",
-    });
+    })
+      .then(() => {
+        getBarang();
+        setFormData({
+          nama_barang: "",
+          kategori: "",
+          stok: "",
+          harga: "",
+        });
+      })
+      .catch((err) => console.log(err));
   };
 
-  const handleDelete = async (id) => {
-    await fetch(`http://localhost:3001/api/barang/${id}`, {
+  const handleDelete = async (nama_barang) => {
+    /*  const newBarang = barang.filter((item) => item.id !== id);
+    setBarang(newBarang); */
+
+    await fetch(`http://localhost:3000/barang/${nama_barang}`, {
       method: "delete",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +54,7 @@ const Barang = () => {
   };
 
   const getBarang = async () => {
-    await fetch("http://localhost:3001/api/barang")
+    await fetch("http://localhost:3000/barang")
       .then((res) => res.json())
       .then((data) => {
         setBarang(data);
@@ -57,7 +62,7 @@ const Barang = () => {
   };
 
   const getKategori = async () => {
-    await fetch("http://seroja.test/api/kategori")
+    await fetch("http://localhost:3000/kategori")
       .then((res) => res.json())
       .then((data) => {
         setKategori(data);

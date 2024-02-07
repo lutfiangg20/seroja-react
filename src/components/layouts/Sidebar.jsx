@@ -1,6 +1,7 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
+  const location = useLocation();
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
       {/* Brand Logo */}
@@ -36,7 +37,14 @@ const Sidebar = () => {
                 <p>Pembelian</p>
               </NavLink>
             </li>
-            <li className="nav-item {{ request()->routeIs('kategori.index') || request()->routeIs('barang.index') ? 'menu-open' : '' }}">
+            <li
+              /* className="nav-item {{ request()->routeIs('kategori.index') || request()->routeIs('barang.index') ? 'menu-open' : '' }}" */ className={`nav-item ${
+                location.pathname.startsWith("/kategori") ||
+                location.pathname.startsWith("/barang")
+                  ? "menu-open"
+                  : ""
+              }`}
+            >
               <a href="#" className="nav-link">
                 <i className="fa-solid fa-store" />
                 <p>

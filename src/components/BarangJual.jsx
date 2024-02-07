@@ -65,7 +65,7 @@ const BarangJual = (props) => {
                   <button
                     type="button"
                     className="btn btn-success"
-                    onClick={() => handleClick(item.id)}
+                    onClick={() => handleClick(item._id)}
                   >
                     <i className="fa-solid fa-circle-plus" />
                   </button>
