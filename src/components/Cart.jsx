@@ -4,21 +4,24 @@ const Cart = (props) => {
   const [cart, setCart] = useState([]);
   /* const uniqueData = [...new Set(cart)]; */
   const [totalHarga, setTotalHarga] = useState(0);
+  const [bayar, setBayar] = useState(0);
+
+  const findId = (id) => {
+    return cart.find((item) => item.id == id);
+  };
 
   useEffect(() => {
-    if (Object.prototype.hasOwnProperty.call(cart, props.pilih)) {
-      //terdefinisi // isset = true
-    } else {
+    if (!findId(props.pilih)) {
       props.barang.map((item) =>
-        item.id === props.pilih
+        item._id === props.pilih
           ? setCart([
               ...cart,
               {
-                id: item.id,
+                id: item._id,
                 nama_barang: item.nama_barang,
                 harga: item.harga,
                 qty: 1,
-                total: 0,
+                total_harga: 0,
               },
             ])
           : null
@@ -29,7 +32,7 @@ const Cart = (props) => {
   useEffect(() => {
     setTotalHarga(
       cart.reduce((a, b) => {
-        return a + b.total;
+        return a + b.total_harga;
       }, 0)
     );
   }, [cart]);
@@ -37,7 +40,7 @@ const Cart = (props) => {
   const jumlah = (e, nama, harga) => {
     const newCart = cart.map((item) =>
       item.nama_barang === nama
-        ? { ...item, total: harga * e.target.value }
+        ? { ...item, total_harga: harga * e.target.value, qty: e.target.value }
         : item
     );
 
@@ -45,8 +48,31 @@ const Cart = (props) => {
   };
 
   const handleDelete = (id) => {
-    const newCart = cart.filter((item) => item.id !== id);
+    const newCart = cart.filter((item) => item._id !== id);
     setCart(newCart);
+  };
+
+  const handleBayar = (e) => {
+    e.preventDefault();
+    if (bayar >= totalHarga) {
+      fetch("http://localhost:3000/laporan", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        /* body: JSON.stringify({
+          nama_barang: cart.map((item) => item.nama_barang),
+          qty: cart.map((item) => item.qty),
+          total_harga: cart.map((item) => item.total_harga),
+          bayar: bayar,
+        }), */
+        body: JSON.stringify(cart),
+      });
+      console.log("transaksi berhasil");
+    }
+    if (bayar < totalHarga) {
+      console.log("duit mu kurang");
+    }
   };
 
   return (
@@ -76,17 +102,18 @@ const Cart = (props) => {
                     onChange={(e) => jumlah(e, item.nama_barang, item.harga)}
                   />
                 </td>
-                <td>Rp. {item.total}</td>
+                <td>Rp. {item.total_harga}</td>
                 <td className="text-center">
                   <button
                     className="btn btn-danger"
-                    onClick={() => handleDelete(item.id)}
+                    onClick={() => handleDelete(item._id)}
                   >
                     <i className="fa-solid fa-trash-can" />
                   </button>
                 </td>
               </tr>
             ))}
+
             <tr>
               <th colSpan={2} className="text-capitalize">
                 total harga :
@@ -105,12 +132,20 @@ const Cart = (props) => {
                 <div className="form-inline">
                   <div className="form-group">
                     Rp.
-                    <input type="text" className="form-control ml-1" />
+                    <input
+                      type="number"
+                      className="form-control ml-1"
+                      onChange={(e) => setBayar(e.target.value)}
+                    />
                   </div>
                 </div>
               </th>
               <th>
-                <button className="btn btn-success">
+                <button
+                  className="btn btn-success"
+                  type="button"
+                  onClick={handleBayar}
+                >
                   <i className="fa-solid fa-cart-shopping" /> Bayar
                 </button>
               </th>

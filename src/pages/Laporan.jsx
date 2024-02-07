@@ -4,11 +4,12 @@ import Layout from "../components/Layout";
 const Laporan = () => {
   const [laporan, setLaporan] = useState([]);
 
+  // eslint-disable-next-line no-unused-vars
   const [limit, setLimit] = useState(10);
   const [from, setFrom] = useState(0);
   const [to, setTo] = useState(10);
   const [search, setSearch] = useState("");
-  const [index, setIndex] = useState(0);
+  /* const [index, setIndex] = useState(0); */
 
   const handleNext = () => {
     if (to < laporan.length) {
@@ -24,10 +25,11 @@ const Laporan = () => {
   };
 
   const getData = async () => {
-    await fetch("http://seroja.test/api/pembelian")
+    await fetch("http://localhost:3000/laporan")
       .then((res) => res.json())
       .then((data) => {
         setLaporan(data);
+        console.log(data);
       });
   };
 
@@ -47,7 +49,6 @@ const Laporan = () => {
 
   useEffect(() => {
     getData();
-    console.log(to);
   }, []);
 
   return (
@@ -127,10 +128,10 @@ const Laporan = () => {
                   <td>{index + 1 + from}</td>
                   <td>{formatDate(item.created_at)}</td>
                   <td>{item.nama_barang}</td>
-                  <td>{item.total_item}</td>
+                  <td>{item.qty}</td>
                   <td>Rp. {item.total_harga}</td>
                   <td>{item.diskon}</td>
-                  <td>Rp. {item.total_bayar}</td>
+                  <td>Rp. {item.total_harga}</td>
                   <td>{item.jenis_transaksi}</td>
                   <td>
                     <button className="btn btn-danger">

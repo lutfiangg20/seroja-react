@@ -8,8 +8,9 @@ import PembelianButtons from "../components/PembelianButtons";
 const Ecer = () => {
   /* const token = useSelector((state) => state.auth.token); */
   const token = localStorage.getItem("token");
+  const [barang, setBarang] = useState([]);
   const getData = async () => {
-    await fetch("http://seroja.test/api/barang", {
+    await fetch("http://localhost:3000/barang", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -21,8 +22,6 @@ const Ecer = () => {
         setBarang(data);
       });
   };
-
-  const [barang, setBarang] = useState([]);
 
   useEffect(() => {
     getData();
