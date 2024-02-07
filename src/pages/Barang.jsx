@@ -21,7 +21,7 @@ const Barang = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await fetch("http://seroja.test/api/barang/store", {
+    await fetch("http://localhost:3001/api/barang", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,11 +38,8 @@ const Barang = () => {
   };
 
   const handleDelete = async (id) => {
-    /*  const newBarang = barang.filter((item) => item.id !== id);
-    setBarang(newBarang); */
-
-    await fetch(`http://seroja.test/api/barang/destroy/${id}`, {
-      method: "GET",
+    await fetch(`http://localhost:3001/api/barang/${id}`, {
+      method: "delete",
       headers: {
         "Content-Type": "application/json",
       },
@@ -52,7 +49,7 @@ const Barang = () => {
   };
 
   const getBarang = async () => {
-    await fetch("http://seroja.test/api/barang")
+    await fetch("http://localhost:3001/api/barang")
       .then((res) => res.json())
       .then((data) => {
         setBarang(data);

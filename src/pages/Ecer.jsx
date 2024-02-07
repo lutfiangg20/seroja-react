@@ -9,7 +9,7 @@ const Ecer = () => {
   /* const token = useSelector((state) => state.auth.token); */
   const token = localStorage.getItem("token");
   const getData = async () => {
-    await fetch("http://seroja.test/api/barang", {
+    await fetch("http://localhost:3001/api/barang", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
