@@ -1,3 +1,12 @@
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 
 const Cart = (props) => {
@@ -47,8 +56,8 @@ const Cart = (props) => {
     setCart(newCart);
   };
 
-  const handleDelete = (id) => {
-    const newCart = cart.filter((item) => item._id !== id);
+  const handleDelete = (nama) => {
+    const newCart = cart.filter((item) => item.nama_barang !== nama);
     setCart(newCart);
   };
 
@@ -69,6 +78,8 @@ const Cart = (props) => {
         body: JSON.stringify(cart),
       });
       console.log("transaksi berhasil");
+      setCart([]);
+      setBayar(0);
     }
     if (bayar < totalHarga) {
       console.log("duit mu kurang");
@@ -76,8 +87,8 @@ const Cart = (props) => {
   };
 
   return (
-    <div className="card card-secondary">
-      <div className="card-body">
+    <div className="">
+      {/* <div className="card-body">
         <table className="table-hover table">
           <thead>
             <tr className="text-capitalize">
@@ -136,6 +147,7 @@ const Cart = (props) => {
                       type="number"
                       className="form-control ml-1"
                       onChange={(e) => setBayar(e.target.value)}
+                      value={bayar}
                     />
                   </div>
                 </div>
@@ -152,8 +164,96 @@ const Cart = (props) => {
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> */}
       {/* /.card-body */}
+      <TableContainer component={Paper}>
+        <form onSubmit={handleBayar}>
+          <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+            <TableHead>
+              {/*  <TableRow>
+              <TableCell align="center" colSpan={3}>
+                Detail
+              </TableCell>
+              <TableCell align="right">Price</TableCell>
+            </TableRow> */}
+              <TableRow>
+                <TableCell>Nama Barang</TableCell>
+                <TableCell align="right">Harga.</TableCell>
+                <TableCell align="right">Jumlah</TableCell>
+                <TableCell align="right" width={150}>
+                  Total
+                </TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {cart.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell>{row.nama_barang}</TableCell>
+                  <TableCell align="right">{row.harga}</TableCell>
+                  <TableCell align="right" width={120}>
+                    {" "}
+                    <input
+                      type="number"
+                      className="form-control"
+                      onChange={(e) => jumlah(e, row.nama_barang, row.harga)}
+                    />
+                  </TableCell>
+                  <TableCell align="right" width={120}>
+                    Rp. {row.total_harga}
+                  </TableCell>
+                  <TableCell align="center">
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(row.nama_barang)}
+                    >
+                      <i className="fa-solid fa-trash-can" />
+                    </button>
+                  </TableCell>
+                </TableRow>
+              ))}
+
+              <TableRow>
+                <TableCell align="right" colSpan={3}>
+                  Total Harga
+                </TableCell>
+                <TableCell align="right">Rp. {totalHarga}</TableCell>
+                <TableCell align="right"></TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell colSpan={3} align="right">
+                  <div className="d-flex justify-content-end">
+                    <p className="mt-2">Rp.</p>
+                  </div>
+                </TableCell>
+                <TableCell align="right">
+                  <div className="d-flex justify-content-end">
+                    <div>
+                      <input
+                        type="number"
+                        className="form-control ml-1"
+                        onChange={(e) => setBayar(e.target.value)}
+                        value={bayar}
+                      />
+                    </div>
+                  </div>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell colSpan={4} align="right">
+                  <button
+                    className="btn btn-success"
+                    type="button"
+                    /*  onClick={handleBayar} */
+                  >
+                    <i className="fa-solid fa-cart-shopping" /> Bayar
+                  </button>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </form>
+      </TableContainer>
     </div>
   );
 };

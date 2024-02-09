@@ -13,6 +13,7 @@ const TambahKategori = (props) => {
                 onChange={(e) => {
                   props.setAddKategori(e.target.value);
                 }}
+                value={props.addkategori}
               />
             </div>
             <button

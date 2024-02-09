@@ -1,6 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Layout from "../components/Layout";
-import TableBarang from "../components/TableBarang";
+/* import TableBarang from "../components/TableBarang"; */
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+} from "material-react-table";
 
 const Barang = () => {
   const [barang, setBarang] = useState([]);
@@ -74,6 +78,44 @@ const Barang = () => {
     getKategori();
   }, []);
 
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: "nama_barang",
+        header: "Nama Barang",
+      },
+      {
+        accessorKey: "kategori",
+        header: "kategori",
+      },
+      {
+        accessorKey: "stok",
+        header: "Stok",
+      },
+      {
+        accessorKey: "harga",
+        header: "Harga",
+      },
+      {
+        accessorKey: "_id",
+        header: "Action",
+        Cell: () => <button className="btn btn-danger">Hapus</button>,
+      },
+    ],
+    []
+  );
+
+  const table = useMaterialReactTable({
+    columns,
+    data: barang, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    enableRowNumbers: true,
+    muiTableBodyCellProps: ({ cell }) => ({
+      onClick: () => {
+        handleDelete(cell.row.original.nama_barang);
+      },
+    }),
+  });
+
   return (
     <Layout>
       <div>
@@ -146,7 +188,7 @@ const Barang = () => {
           </div>
         </div>
         <div className="card" style={{}}>
-          <div className="card-body">
+          {/*  <div className="card-body">
             <div className="row">
               <div className="form-group col-sm-8 row mt-3 mb-0 ml-1">
                 <label htmlFor="perPage">
@@ -172,7 +214,8 @@ const Barang = () => {
             </div>
 
             <TableBarang barang={barang} handleDelete={handleDelete} />
-          </div>
+          </div> */}
+          <MaterialReactTable table={table} />
         </div>
       </div>
     </Layout>

@@ -52,9 +52,11 @@ const Kategori = () => {
       <TambahKategori
         handleTambah={handleTambah}
         setAddKategori={setAddKategori}
+        addkategori={addkategori}
       />
       <div className="card">
         <div className="card-body">
+          {addkategori}
           <div className="row">
             <div className="form-group col-sm-8 row mt-3 mb-0 ml-1">
               <label htmlFor="perPage">
