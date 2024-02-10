@@ -5,6 +5,7 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
+import { GridDeleteIcon } from "@mui/x-data-grid";
 
 const Barang = () => {
   const [barang, setBarang] = useState([]);
@@ -99,7 +100,11 @@ const Barang = () => {
       {
         accessorKey: "_id",
         header: "Action",
-        Cell: () => <button className="btn btn-danger">Hapus</button>,
+        Cell: () => (
+          <button className="btn btn-danger">
+            <GridDeleteIcon />
+          </button>
+        ),
       },
     ],
     []

@@ -11,8 +11,8 @@ const PembelianButtons = (props) => {
         <i className="fa-solid fa-circle-plus" /> Transaksi Bengkel
       </button>
       <div className="row">
-        <div className="col-md-5 mt-4">{props.barang}</div>
-        <div className="col-md-7 mt-4">{props.cart}</div>
+        <div className="">{props.barang}</div>
+        <div className="">{props.cart}</div>
       </div>
     </div>
   );
