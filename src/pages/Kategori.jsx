@@ -5,6 +5,7 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
+import { GridDeleteIcon } from "@mui/x-data-grid";
 
 const Kategori = () => {
   const [kategori, setKategori] = useState([]);
@@ -15,6 +16,9 @@ const Kategori = () => {
       .then((res) => res.json())
       .then((data) => {
         setKategori(data);
+        console.log("====================================");
+        console.log(data);
+        console.log("====================================");
       });
   };
 
@@ -55,16 +59,19 @@ const Kategori = () => {
     () => [
       {
         accessorKey: "nama_kategori",
-        header: "Nama Barang",
+        header: "Nama Kategori",
+        maxSize: 10,
       },
+
       {
         accessorKey: "_id",
         header: "Action",
         Cell: () => (
           <button className="btn btn-danger">
-            <i className="fa-solid fa-trash-can" />
+            <GridDeleteIcon />
           </button>
         ),
+        maxSize: 2,
       },
     ],
     []
@@ -76,7 +83,7 @@ const Kategori = () => {
     enableRowNumbers: true,
     muiTableBodyCellProps: ({ cell }) => ({
       onClick: () => {
-        handleDelete(cell.row.original.nama_barang);
+        handleDelete(cell.row.original.nama_kategori);
       },
     }),
   });
@@ -90,59 +97,6 @@ const Kategori = () => {
       />
       <div className="card">
         <div className="card-body">
-          <div className="row">
-            <div className="form-group col-sm-8 row mt-3 mb-0 ml-1">
-              <label htmlFor="perPage">
-                Show:
-                <select id="perPage">
-                  <option value={10}>10</option>
-                  <option value={25}>25</option>
-                  <option value={50}>50</option>
-                  <option value={100}>100</option>
-                </select>
-                entries
-              </label>
-            </div>
-            <div className="form-group col-sm-4 row justify-content-end mt-3 mb-0 pr-0">
-              <div className>
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Cari barang..."
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* <table className="table table-hover">
-            <thead>
-              <tr className="text-capitalize">
-                <th>no.</th>
-                <th>nama kategori</th>
-                <th>aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {kategori.map((item, index) => (
-                <tr className="text-capitalize" key={index}>
-                  <td>{index + 1}</td>
-                  <td>{item.nama_kategori}</td>
-                  <td>
-                    <button type="button" className="btn btn-success">
-                      <i className="fa-solid fa-pen-to-square" />
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      onClick={() => handleDelete(item.nama_kategori)}
-                    >
-                      <i className="fa-solid fa-trash-can" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table> */}
           <MaterialReactTable table={table} />
         </div>
       </div>
