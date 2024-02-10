@@ -6,6 +6,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
@@ -69,17 +70,12 @@ const Cart = (props) => {
         headers: {
           "Content-Type": "application/json",
         },
-        /* body: JSON.stringify({
-          nama_barang: cart.map((item) => item.nama_barang),
-          qty: cart.map((item) => item.qty),
-          total_harga: cart.map((item) => item.total_harga),
-          bayar: bayar,
-        }), */
         body: JSON.stringify(cart),
       });
       console.log("transaksi berhasil");
       setCart([]);
       setBayar(0);
+      console.log("bayar", bayar);
     }
     if (bayar < totalHarga) {
       console.log("duit mu kurang");
@@ -88,102 +84,22 @@ const Cart = (props) => {
 
   return (
     <div className="">
-      {/* <div className="card-body">
-        <table className="table-hover table">
-          <thead>
-            <tr className="text-capitalize">
-              <th style={{ width: "5%" }}>no.</th>
-              <th>nama barang</th>
-              <th>harga</th>
-              <th style={{ width: "10%", textAlign: "center" }}>jumlah</th>
-              <th>total</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {cart.map((item, index) => (
-              <tr className="text-capitalize" key={index}>
-                <td>{index + 1}</td>
-                <td>{item.nama_barang}</td>
-                <td>Rp. {item.harga}</td>
-                <td>
-                  <input
-                    type="number"
-                    className="form-control"
-                    onChange={(e) => jumlah(e, item.nama_barang, item.harga)}
-                  />
-                </td>
-                <td>Rp. {item.total_harga}</td>
-                <td className="text-center">
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => handleDelete(item._id)}
-                  >
-                    <i className="fa-solid fa-trash-can" />
-                  </button>
-                </td>
-              </tr>
-            ))}
-
-            <tr>
-              <th colSpan={2} className="text-capitalize">
-                total harga :
-              </th>
-              <th />
-              <th />
-              <td>Rp.{totalHarga}</td>
-              <td className="text-center"></td>
-            </tr>
-            <tr>
-              <th />
-              <th />
-              <th />
-              <th />
-              <th>
-                <div className="form-inline">
-                  <div className="form-group">
-                    Rp.
-                    <input
-                      type="number"
-                      className="form-control ml-1"
-                      onChange={(e) => setBayar(e.target.value)}
-                      value={bayar}
-                    />
-                  </div>
-                </div>
-              </th>
-              <th>
-                <button
-                  className="btn btn-success"
-                  type="button"
-                  onClick={handleBayar}
-                >
-                  <i className="fa-solid fa-cart-shopping" /> Bayar
-                </button>
-              </th>
-            </tr>
-          </tbody>
-        </table>
-      </div> */}
-      {/* /.card-body */}
       <TableContainer component={Paper}>
         <form onSubmit={handleBayar}>
-          <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+          <Table sx={{ minWidth: 400 }} aria-label="spanning table">
             <TableHead>
-              {/*  <TableRow>
-              <TableCell align="center" colSpan={3}>
-                Detail
-              </TableCell>
-              <TableCell align="right">Price</TableCell>
-            </TableRow> */}
               <TableRow>
-                <TableCell>Nama Barang</TableCell>
-                <TableCell align="right">Harga.</TableCell>
-                <TableCell align="right">Jumlah</TableCell>
-                <TableCell align="right" width={150}>
+                <TableCell width={100}>Nama Barang</TableCell>
+                <TableCell width={100} align="right">
+                  Harga.
+                </TableCell>
+                <TableCell width={100} align="right">
+                  Jumlah
+                </TableCell>
+                <TableCell width={100} align="right">
                   Total
                 </TableCell>
-                <TableCell></TableCell>
+                <TableCell width={100}></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -191,17 +107,23 @@ const Cart = (props) => {
                 <TableRow key={index}>
                   <TableCell>{row.nama_barang}</TableCell>
                   <TableCell align="right">{row.harga}</TableCell>
-                  <TableCell align="right" width={120}>
-                    {" "}
-                    <input
+                  <TableCell align="right">
+                    {/* <Input
                       type="number"
-                      className="form-control"
+                      className=""
                       onChange={(e) => jumlah(e, row.nama_barang, row.harga)}
+                    /> */}
+                    <TextField
+                      id="outlined-number"
+                      label="Number"
+                      type="number"
+                      onChange={(e) => jumlah(e, row.nama_barang, row.harga)}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                     />
                   </TableCell>
-                  <TableCell align="right" width={120}>
-                    Rp. {row.total_harga}
-                  </TableCell>
+                  <TableCell align="right">Rp. {row.total_harga}</TableCell>
                   <TableCell align="center">
                     <button
                       className="btn btn-danger"
@@ -243,7 +165,7 @@ const Cart = (props) => {
                 <TableCell colSpan={4} align="right">
                   <button
                     className="btn btn-success"
-                    type="button"
+                    type="submit"
                     /*  onClick={handleBayar} */
                   >
                     <i className="fa-solid fa-cart-shopping" /> Bayar

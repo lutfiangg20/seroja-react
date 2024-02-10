@@ -1,15 +1,19 @@
-import { useEffect, useState } from "react";
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+} from "material-react-table";
+import { useMemo } from "react";
 
 const BarangJual = (props) => {
-  const [cari, setCari] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
+  /*  const [cari, setCari] = useState("");
+  const [filteredData, setFilteredData] = useState([]); */
 
-  useEffect(() => {
+  /*  useEffect(() => {
     const filtered = props.barang.filter((item) =>
       item.nama_barang.toLowerCase().includes(cari.toLowerCase())
     );
     setFilteredData(filtered);
-  }, [cari, props.barang]);
+  }, [cari, props.barang]); */
 
   /*  const [pilih, setPilih] = useState(null); */
 
@@ -17,9 +21,50 @@ const BarangJual = (props) => {
     props.pilih(id);
   };
 
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: "nama_barang", //access nested data with dot notation
+        header: "Nama Barang",
+        size: 200,
+      },
+      {
+        accessorKey: "harga",
+        header: "Harga",
+        size: 100,
+      },
+      {
+        accessorKey: "stok", //normal accessorKey
+        header: "Stok",
+        size: 100,
+      },
+      {
+        accessorKey: "_id", //normal accessorKey
+        header: "Pilih",
+        size: 100,
+        Cell: () => (
+          <button type="button" className="btn btn-success">
+            <i className="fa-solid fa-circle-plus" />
+          </button>
+        ),
+      },
+    ],
+    []
+  );
+
+  const table = useMaterialReactTable({
+    columns,
+    data: props.barang, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    muiTableBodyCellProps: ({ cell }) => ({
+      onClick: () => {
+        handleClick(cell.row.original._id);
+      },
+    }),
+  });
+
   return (
-    <div className="card card-secondary">
-      <div className="row">
+    <div className="">
+      {/* <div className="row">
         <div className="form-group col-sm-6 row mb-0 ml-1 mt-3">
           <label htmlFor="perPage">
             Show:
@@ -74,8 +119,9 @@ const BarangJual = (props) => {
             ))}
           </tbody>
         </table>
-      </div>
+      </div> */}
       {/* /.card-body */}
+      <MaterialReactTable table={table} />
     </div>
   );
 };
