@@ -1,6 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Layout from "../components/Layout";
 import TambahKategori from "../components/TambahKategori";
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+} from "material-react-table";
 
 const Kategori = () => {
   const [kategori, setKategori] = useState([]);
@@ -47,6 +51,36 @@ const Kategori = () => {
       .catch((err) => console.log(err));
   };
 
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: "nama_kategori",
+        header: "Nama Barang",
+      },
+      {
+        accessorKey: "_id",
+        header: "Action",
+        Cell: () => (
+          <button className="btn btn-danger">
+            <i className="fa-solid fa-trash-can" />
+          </button>
+        ),
+      },
+    ],
+    []
+  );
+
+  const table = useMaterialReactTable({
+    columns,
+    data: kategori, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    enableRowNumbers: true,
+    muiTableBodyCellProps: ({ cell }) => ({
+      onClick: () => {
+        handleDelete(cell.row.original.nama_barang);
+      },
+    }),
+  });
+
   return (
     <Layout>
       <TambahKategori
@@ -56,7 +90,6 @@ const Kategori = () => {
       />
       <div className="card">
         <div className="card-body">
-          {addkategori}
           <div className="row">
             <div className="form-group col-sm-8 row mt-3 mb-0 ml-1">
               <label htmlFor="perPage">
@@ -81,7 +114,7 @@ const Kategori = () => {
             </div>
           </div>
 
-          <table className="table table-hover">
+          {/* <table className="table table-hover">
             <thead>
               <tr className="text-capitalize">
                 <th>no.</th>
@@ -109,7 +142,8 @@ const Kategori = () => {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table> */}
+          <MaterialReactTable table={table} />
         </div>
       </div>
     </Layout>
