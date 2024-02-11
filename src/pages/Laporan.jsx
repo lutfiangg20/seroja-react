@@ -77,7 +77,7 @@ const Laporan = () => {
         size: 50,
       },
       {
-        accessorKey: "jenis_transaksi",
+        accessorKey: "jenis",
         header: "Jenis Transaksi",
         size: 50,
       },

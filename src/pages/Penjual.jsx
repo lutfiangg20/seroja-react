@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import BarangJual from "../components/BarangJual";
-import Cart from "../components/Cart";
 import Layout from "../components/Layout";
 import PembelianButtons from "../components/PembelianButtons";
+import CartPenjual from "../components/CartPenjual";
 
 const Penjual = () => {
   const token = localStorage.getItem("token");
@@ -33,7 +33,7 @@ const Penjual = () => {
     <Layout>
       <PembelianButtons
         barang={<BarangJual barang={barang} pilih={setPilih} />}
-        cart={<Cart barang={barang} pilih={pilih} />}
+        cart={<CartPenjual barang={barang} pilih={pilih} />}
       />
     </Layout>
   );

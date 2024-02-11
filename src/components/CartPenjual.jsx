@@ -31,7 +31,9 @@ const CartPenjual = (props) => {
                 nama_barang: item.nama_barang,
                 harga: item.harga,
                 qty: 1,
+                diskon: 0,
                 total_harga: 0,
+                jenis: "penjual",
               },
             ])
           : null
@@ -47,13 +49,29 @@ const CartPenjual = (props) => {
     );
   }, [cart]);
 
-  const jumlah = (e, nama, harga) => {
+  const jumlah = (e, nama, harga, diskon) => {
     const newCart = cart.map((item) =>
       item.nama_barang === nama
-        ? { ...item, total_harga: harga * e.target.value, qty: e.target.value }
+        ? {
+            ...item,
+            total_harga: harga * e.target.value - diskon,
+            qty: e.target.value,
+          }
         : item
     );
+    setCart(newCart);
+  };
 
+  const diskon = (e, nama, harga, jumlah) => {
+    const newCart = cart.map((item) =>
+      item.nama_barang === nama
+        ? {
+            ...item,
+            diskon: e.target.value,
+            total_harga: harga * jumlah - e.target.value,
+          }
+        : item
+    );
     setCart(newCart);
   };
 
@@ -69,13 +87,14 @@ const CartPenjual = (props) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token"),
         },
         body: JSON.stringify(cart),
+      }).then(() => {
+        console.log("transaksi berhasil");
+        setCart([]);
+        setBayar(0);
       });
-      console.log("transaksi berhasil");
-      setCart([]);
-      setBayar(0);
-      console.log("bayar", bayar);
     }
     if (bayar < totalHarga) {
       console.log("duit mu kurang");
@@ -97,6 +116,9 @@ const CartPenjual = (props) => {
                   Jumlah
                 </TableCell>
                 <TableCell width={100} align="right">
+                  Diskon
+                </TableCell>
+                <TableCell width={100} align="right">
                   Total
                 </TableCell>
                 <TableCell width={100}></TableCell>
@@ -115,9 +137,24 @@ const CartPenjual = (props) => {
                       /> */}
                     <TextField
                       id="outlined-number"
-                      label="Number"
+                      label="jumlah"
                       type="number"
-                      onChange={(e) => jumlah(e, row.nama_barang, row.harga)}
+                      onChange={(e) =>
+                        jumlah(e, row.nama_barang, row.harga, row.diskon)
+                      }
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell align="right">
+                    <TextField
+                      id="outlined-number"
+                      label="diskon"
+                      type="number"
+                      onChange={(e) =>
+                        diskon(e, row.nama_barang, row.harga, row.qty)
+                      }
                       InputLabelProps={{
                         shrink: true,
                       }}
@@ -136,14 +173,14 @@ const CartPenjual = (props) => {
               ))}
 
               <TableRow>
-                <TableCell align="right" colSpan={3}>
+                <TableCell align="right" colSpan={4}>
                   Total Harga
                 </TableCell>
                 <TableCell align="right">Rp. {totalHarga}</TableCell>
                 <TableCell align="right"></TableCell>
               </TableRow>
               <TableRow>
-                <TableCell colSpan={3} align="right">
+                <TableCell colSpan={4} align="right">
                   <div className="d-flex justify-content-end">
                     <p className="mt-2">Rp.</p>
                   </div>
@@ -162,7 +199,7 @@ const CartPenjual = (props) => {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell colSpan={4} align="right">
+                <TableCell colSpan={5} align="right">
                   <button
                     className="btn btn-success"
                     type="submit"

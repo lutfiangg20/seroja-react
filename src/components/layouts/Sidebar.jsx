@@ -29,16 +29,16 @@ const Sidebar = () => {
        with font-awesome or any other icon font library */}
             <li className="nav-item">
               <NavLink
-                to="/pembelian/ecer"
+                to="/kasir/ecer"
                 className={`nav-link ${
-                  location.pathname === "/pembelian/ecer" &&
-                  location.pathname === "/pembelian/penjual"
+                  location.pathname === "/kasir/ecer" &&
+                  location.pathname === "/kasir/penjual"
                     ? "active"
                     : ""
                 }`}
               >
                 <i className="fa-solid fa-cart-shopping" />
-                <p> Pembelian</p>
+                <p> Kasir</p>
               </NavLink>
             </li>
             {/* <li
@@ -115,7 +115,7 @@ const Sidebar = () => {
                 className="nav-link"
                 activeclassname="active"
               >
-                <i className="fa-solid fa-cart-shopping" />
+                <i className="fa-solid fa-right-from-bracket"></i>
                 <p> Logout</p>
               </NavLink>
             </li>

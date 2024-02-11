@@ -5,11 +5,11 @@ const PembelianButtons = (props) => {
 
   return (
     <div className="container-fluid">
-      <NavLink to="/pembelian/ecer">
+      <NavLink to="/kasir/ecer">
         <button
           type="button"
           className={`btn ${
-            location.pathname === "/pembelian/ecer"
+            location.pathname === "/kasir/ecer"
               ? "btn-success"
               : "btn-secondary"
           } mr-1`}
@@ -17,11 +17,11 @@ const PembelianButtons = (props) => {
           <i className="fa-solid fa-circle-plus" /> Transaksi Ecer
         </button>
       </NavLink>
-      <NavLink to="/pembelian/penjual">
+      <NavLink to="/kasir/penjual">
         <button
           type="button"
           className={`btn ${
-            location.pathname === "/pembelian/penjual"
+            location.pathname === "/kasir/penjual"
               ? "btn-success"
               : "btn-secondary"
           } mx-1`}
@@ -32,10 +32,8 @@ const PembelianButtons = (props) => {
       {/*  <button type="button" className="btn btn-danger mx-1">
         <i className="fa-solid fa-circle-plus" /> Transaksi Bengkel
       </button> */}
-      <div className="row">
-        <div className="col-md-6 mt-4">{props.barang}</div>
-        <div className="col-md-6 mt-4">{props.cart}</div>
-      </div>
+      <div className="mb-5">{props.barang}</div>
+      <div>{props.cart}</div>
     </div>
   );
 };

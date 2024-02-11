@@ -44,7 +44,7 @@ function App() {
             }
           />
           <Route
-            path="/pembelian/ecer"
+            path="/kasir/ecer"
             element={
               <RequireAuth>
                 <Ecer />
@@ -52,7 +52,7 @@ function App() {
             }
           />
           <Route
-            path="/pembelian/penjual"
+            path="/kasir/penjual"
             element={
               <RequireAuth>
                 <Penjual />

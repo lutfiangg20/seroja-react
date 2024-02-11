@@ -27,11 +27,12 @@ const Cart = (props) => {
           ? setCart([
               ...cart,
               {
-                id: item._id,
+                _id: item._id,
                 nama_barang: item.nama_barang,
                 harga: item.harga,
                 qty: 1,
                 total_harga: 0,
+                jenis: "ecer",
               },
             ])
           : null
@@ -53,13 +54,23 @@ const Cart = (props) => {
         ? { ...item, total_harga: harga * e.target.value, qty: e.target.value }
         : item
     );
-
     setCart(newCart);
   };
 
   const handleDelete = (nama) => {
     const newCart = cart.filter((item) => item.nama_barang !== nama);
     setCart(newCart);
+  };
+
+  const updateStok = async () => {
+    await fetch("http://localhost:3000/update/stok", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+      },
+      body: JSON.stringify(cart),
+    }).catch((err) => console.log(err));
   };
 
   const handleBayar = (e) => {
@@ -69,13 +80,17 @@ const Cart = (props) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token"),
         },
         body: JSON.stringify(cart),
+      }).then(() => {
+        console.log("transaksi berhasil");
+        updateStok();
+        setCart([]);
+        setBayar(0);
+        console.log("bayar", bayar);
+        props.getData();
       });
-      console.log("transaksi berhasil");
-      setCart([]);
-      setBayar(0);
-      console.log("bayar", bayar);
     }
     if (bayar < totalHarga) {
       console.log("duit mu kurang");

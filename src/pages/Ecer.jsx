@@ -38,7 +38,7 @@ const Ecer = () => {
     <Layout>
       <PembelianButtons
         barang={<BarangJual barang={barang} pilih={setPilih} />}
-        cart={<Cart barang={barang} pilih={pilih} />}
+        cart={<Cart barang={barang} pilih={pilih} getData={getData} />}
       />
     </Layout>
   );
