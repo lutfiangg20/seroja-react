@@ -27,7 +27,7 @@ const Cart = (props) => {
           ? setCart([
               ...cart,
               {
-                _id: item._id,
+                id: item._id,
                 nama_barang: item.nama_barang,
                 harga: item.harga,
                 qty: 1,
