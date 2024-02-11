@@ -9,9 +9,16 @@ import ExportToExcelButton from "../components/ExportToExcel";
 
 const Laporan = () => {
   const [laporan, setLaporan] = useState([]);
+  const token = localStorage.getItem("token");
 
   const getData = async () => {
-    await fetch("http://localhost:3000/laporan")
+    await fetch("http://localhost:3000/laporan", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setLaporan(data);

@@ -10,15 +10,19 @@ import { GridDeleteIcon } from "@mui/x-data-grid";
 const Kategori = () => {
   const [kategori, setKategori] = useState([]);
   const [addkategori, setAddKategori] = useState("");
+  const token = localStorage.getItem("token");
 
   const getKategori = async () => {
-    await fetch("http://localhost:3000/kategori")
+    await fetch("http://localhost:3000/kategori", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setKategori(data);
-        console.log("====================================");
-        console.log(data);
-        console.log("====================================");
       });
   };
 
@@ -32,6 +36,7 @@ const Kategori = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: token,
       },
       body: JSON.stringify({ nama_kategori: addkategori }),
     })
@@ -47,6 +52,7 @@ const Kategori = () => {
       method: "delete",
       headers: {
         "Content-Type": "application/json",
+        Authorization: token,
       },
     })
       .then(() => {

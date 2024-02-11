@@ -1,7 +1,5 @@
 /* import { useState } from "react"; */
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { setToken } from "../stores/authSlice";
 import { useNavigate } from "react-router-dom";
 /* import { NavLink } from "react-router-dom"; */
 
@@ -10,14 +8,15 @@ const Login = () => {
     username: "",
     password: "",
   });
+  const [alert, setAlert] = useState("");
 
-  const dispatch = useDispatch();
+  /* const dispatch = useDispatch(); */
   /* const token = useSelector((state) => state.auth.token); */
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault;
-    await fetch("http://seroja.test/api/login", {
+    await fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,10 +25,15 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        dispatch(setToken(data));
-        navigate("/pembelian/ecer");
-      });
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+          navigate("/pembelian/ecer");
+        } else {
+          navigate("/login");
+          setAlert("Username atau Password anda salah");
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -74,26 +78,7 @@ const Login = () => {
           >
             Sign in
           </button>
-          {/* Register buttons */}
-          {/* <div className="text-center">
-            <p>
-              Not a member?
-              <NavLink to="/register">Register</NavLink>
-            </p>
-            <p>or sign up with:</p>
-            <button type="button" className="btn btn-link btn-floating mx-1">
-              <i className="fab fa-facebook-f" />
-            </button>
-            <button type="button" className="btn btn-link btn-floating mx-1">
-              <i className="fab fa-google" />
-            </button>
-            <button type="button" className="btn btn-link btn-floating mx-1">
-              <i className="fab fa-twitter" />
-            </button>
-            <button type="button" className="btn btn-link btn-floating mx-1">
-              <i className="fab fa-github" />
-            </button>
-          </div> */}
+          {alert && <div className="alert alert-danger">{alert}</div>}
         </form>
       </div>
     </div>

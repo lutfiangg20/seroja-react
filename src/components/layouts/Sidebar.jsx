@@ -30,15 +30,19 @@ const Sidebar = () => {
             <li className="nav-item">
               <NavLink
                 to="/pembelian/ecer"
-                className="nav-link"
-                activeClassName="active"
+                className={`nav-link ${
+                  location.pathname === "/pembelian/ecer" &&
+                  location.pathname === "/pembelian/penjual"
+                    ? "active"
+                    : ""
+                }`}
               >
                 <i className="fa-solid fa-cart-shopping" />
-                <p>Pembelian</p>
+                <p> Pembelian</p>
               </NavLink>
             </li>
-            <li
-              /* className="nav-item {{ request()->routeIs('kategori.index') || request()->routeIs('barang.index') ? 'menu-open' : '' }}" */ className={`nav-item ${
+            {/* <li
+              className={`nav-item ${
                 location.pathname.startsWith("/kategori") ||
                 location.pathname.startsWith("/barang")
                   ? "menu-open"
@@ -57,7 +61,7 @@ const Sidebar = () => {
                   <NavLink
                     to="/kategori"
                     className="nav-link"
-                    activeClassName="active"
+                    activeclassname="active"
                   >
                     <i className="fa-solid fa-layer-group" />
                     <p>Kategori</p>
@@ -67,52 +71,52 @@ const Sidebar = () => {
                   <NavLink
                     to="/barang"
                     className="nav-link"
-                    activeClassName="active"
+                    activeclassname="active"
                   >
                     <i className="fa-solid fa-box-open" />
                     <p>Barang</p>
                   </NavLink>
                 </li>
               </ul>
-            </li>
-            {/* <li className="nav-item {{ request()->routeIs('kategoriBengkel.index') || request()->routeIs('barangBengkel.index') ? 'menu-open' : '' }}">
-              <a href="#" className="nav-link">
-                <i className="fa-solid fa-warehouse" />
-                <p>
-                  {" "}
-                  Bengkel
-                  <i className="right fas fa-angle-left" />
-                </p>
-              </a>
-              <ul className="nav nav-treeview ml-3">
-                <li className="nav-item">
-                  <a
-                    href="{{route('kategoriBengkel.index')}}"
-                    className="nav-link {{ request()->routeIs('kategoriBengkel.index') ? 'active' : '' }}"
-                  >
-                    <i className="fa-solid fa-layer-group" />
-                    <p>Kategori</p>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    href="{{route('barangBengkel.index')}}"
-                    className="nav-link {{ request()->routeIs('barangBengkel.index') ? 'active' : '' }}"
-                  >
-                    <i className="fa-solid fa-box-open" />
-                    <p>Barang</p>
-                  </a>
-                </li>
-              </ul>
             </li> */}
+            <li className="nav-item">
+              <NavLink
+                to="/kategori"
+                className="nav-link"
+                activeclassname="active"
+              >
+                <i className="fa-solid fa-layer-group" />
+                <p> Kategori</p>
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                to="/barang"
+                className="nav-link"
+                activeclassname="active"
+              >
+                <i className="fa-solid fa-box-open" />
+                <p> Barang</p>
+              </NavLink>
+            </li>
             <li className="nav-item">
               <NavLink
                 to="/laporan"
                 className="nav-link"
-                activeClassName="active"
+                activeclassname="active"
               >
                 <i className="fa-solid fa-cart-shopping" />
-                <p>Laporan</p>
+                <p> Laporan</p>
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                to="/logout"
+                className="nav-link"
+                activeclassname="active"
+              >
+                <i className="fa-solid fa-cart-shopping" />
+                <p> Logout</p>
               </NavLink>
             </li>
           </ul>

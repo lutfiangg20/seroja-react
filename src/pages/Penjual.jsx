@@ -4,10 +4,7 @@ import Cart from "../components/Cart";
 import Layout from "../components/Layout";
 import PembelianButtons from "../components/PembelianButtons";
 
-/* import { useSelector } from "react-redux"; */
-
-const Ecer = () => {
-  /* const token = useSelector((state) => state.auth.token); */
+const Penjual = () => {
   const token = localStorage.getItem("token");
   const [barang, setBarang] = useState([]);
   const getData = async () => {
@@ -28,12 +25,10 @@ const Ecer = () => {
   };
 
   useEffect(() => {
-    /*  cekLogin(); */
     getData();
   }, []);
 
   const [pilih, setPilih] = useState(null);
-
   return (
     <Layout>
       <PembelianButtons
@@ -44,4 +39,4 @@ const Ecer = () => {
   );
 };
 
-export default Ecer;
+export default Penjual;

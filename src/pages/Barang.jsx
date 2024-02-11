@@ -16,6 +16,7 @@ const Barang = () => {
     stok: "",
     harga: "",
   });
+  const token = localStorage.getItem("token");
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -29,6 +30,7 @@ const Barang = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: token,
       },
       body: JSON.stringify(formData),
     })
@@ -52,6 +54,7 @@ const Barang = () => {
       method: "delete",
       headers: {
         "Content-Type": "application/json",
+        Authorization: token,
       },
     }).then(() => {
       getBarang();
@@ -59,7 +62,13 @@ const Barang = () => {
   };
 
   const getBarang = async () => {
-    await fetch("http://localhost:3000/barang")
+    await fetch("http://localhost:3000/barang", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setBarang(data);
@@ -67,7 +76,13 @@ const Barang = () => {
   };
 
   const getKategori = async () => {
-    await fetch("http://localhost:3000/kategori")
+    await fetch("http://localhost:3000/kategori", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setKategori(data);
@@ -149,6 +164,7 @@ const Barang = () => {
                     name="kategori"
                     onChange={handleInput}
                     value={formData.kategori}
+                    key={formData.kategori}
                   >
                     <option value="" disabled selected>
                       Pilih Kategori
@@ -168,7 +184,6 @@ const Barang = () => {
                     name="stok"
                     placeholder="Stok"
                     onChange={handleInput}
-                    value={formData.stok}
                   />
                 </div>
                 <div className="col-sm-2">
@@ -193,33 +208,6 @@ const Barang = () => {
           </div>
         </div>
         <div className="card" style={{}}>
-          {/*  <div className="card-body">
-            <div className="row">
-              <div className="form-group col-sm-8 row mt-3 mb-0 ml-1">
-                <label htmlFor="perPage">
-                  Show:
-                  <select id="perPage">
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                  </select>
-                  entries
-                </label>
-              </div>
-              <div className="form-group col-sm-4 row justify-content-end mt-3 mb-0 pr-0">
-                <div className>
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Cari barang..."
-                  />
-                </div>
-              </div>
-            </div>
-
-            <TableBarang barang={barang} handleDelete={handleDelete} />
-          </div> */}
           <MaterialReactTable table={table} />
         </div>
       </div>
