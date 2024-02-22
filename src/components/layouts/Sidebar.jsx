@@ -81,6 +81,16 @@ const Sidebar = () => {
             </li> */}
             <li className="nav-item">
               <NavLink
+                to="/pelanggan"
+                className="nav-link"
+                activeclassname="active"
+              >
+                <i className="fa-solid fa-users" />
+                <p> Pelanggan</p>
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
                 to="/kategori"
                 className="nav-link"
                 activeclassname="active"

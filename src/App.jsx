@@ -17,6 +17,7 @@ import Register from "./pages/Register.jsx";
 import Logout from "./pages/Logout.jsx";
 import RequireAuth from "./auth/RequireAuth.jsx";
 import Penjual from "./pages/Penjual.jsx";
+import Pelanggan from "./pages/Pelanggan.jsx";
 
 function App() {
   return (
@@ -59,7 +60,17 @@ function App() {
               </RequireAuth>
             }
           />
+
           <Route path="/laporan" element={<Laporan />} />
+
+          <Route
+            path="/pelanggan"
+            element={
+              <RequireAuth>
+                <Pelanggan />
+              </RequireAuth>
+            }
+          />
           <Route
             path="/barang"
             element={

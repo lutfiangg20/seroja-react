@@ -1,5 +1,7 @@
 import {
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -15,10 +17,29 @@ const CartPenjual = (props) => {
   /* const uniqueData = [...new Set(cart)]; */
   const [totalHarga, setTotalHarga] = useState(0);
   const [bayar, setBayar] = useState(0);
+  const [pelanggan, setPelanggan] = useState([]);
 
   const findId = (id) => {
     return cart.find((item) => item.id == id);
   };
+
+  const getPelanggan = async () => {
+    await fetch("http://localhost:3000/pelanggan", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setPelanggan(data);
+      });
+  };
+
+  useEffect(() => {
+    getPelanggan();
+  }, []);
 
   useEffect(() => {
     if (!findId(props.pilih)) {
@@ -107,6 +128,18 @@ const CartPenjual = (props) => {
         <form onSubmit={handleBayar}>
           <Table sx={{ minWidth: 400 }} aria-label="spanning table">
             <TableHead>
+              <TableRow>
+                <TableCell width={100}>Nama Pembeli</TableCell>
+                <TableCell width={500}>
+                  <Select onChange={(e) => setPelanggan(e.target.value)}>
+                    {pelanggan.map((item) => (
+                      <MenuItem value={item.nama} key={item._id}>
+                        {item.nama}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </TableCell>
+              </TableRow>
               <TableRow>
                 <TableCell width={100}>Nama Barang</TableCell>
                 <TableCell width={100} align="right">

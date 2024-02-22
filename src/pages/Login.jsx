@@ -27,7 +27,7 @@ const Login = () => {
       .then((data) => {
         if (data.token) {
           localStorage.setItem("token", data.token);
-          navigate("/pembelian/ecer");
+          navigate("/kasir/ecer");
         } else {
           navigate("/login");
           setAlert("Username atau Password anda salah");
