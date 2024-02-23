@@ -11,14 +11,28 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import updateStok from "../utility/updateStok";
+import Invoice from "../pages/Invoice";
 
 const Cart = (props) => {
   const [cart, setCart] = useState([]);
   /* const uniqueData = [...new Set(cart)]; */
   const [totalHarga, setTotalHarga] = useState(0);
   const [bayar, setBayar] = useState(0);
-  const [invoice, setInvoice] = useState(null);
+  const [invoice, setInvoice] = useState({
+    pelanggan: "ecer",
+    cart: [
+      {
+        id: "",
+        nama_barang: "",
+        harga: "",
+        stok: "",
+        total_harga: "",
+      },
+    ],
+    totalHarga: 0,
+  });
   const [alert, setAlert] = useState(false);
+  console.log(invoice);
 
   const findId = (id) => {
     return cart.find((item) => item.id == id);
@@ -45,15 +59,16 @@ const Cart = (props) => {
   }, [props.pilih]);
 
   useEffect(() => {
-    setTotalHarga(
-      cart.reduce((a, b) => {
-        return a + b.total_harga;
-      }, 0)
-    );
+    const newTotal = cart.reduce((a, b) => {
+      return a + b.total_harga;
+    }, 0);
+
+    setTotalHarga(newTotal);
 
     setInvoice({
       pelanggan: "ecer",
       cart: cart,
+      totalHarga: newTotal,
     });
   }, [cart]);
 
@@ -80,6 +95,7 @@ const Cart = (props) => {
 
   const handleBayar = (e) => {
     e.preventDefault();
+    localStorage.setItem("invoice", JSON.stringify(invoice));
 
     if (bayar >= totalHarga) {
       fetch("http://localhost:3000/laporan", {
@@ -138,7 +154,7 @@ const Cart = (props) => {
               {cart.map((row, index) => (
                 <TableRow key={index}>
                   <TableCell>{row.nama_barang}</TableCell>
-                  <TableCell align="right">{row.harga}</TableCell>
+                  <TableCell align="right">Rp. {row.harga}</TableCell>
                   <TableCell align="right">
                     {/* <Input
                       type="number"
@@ -209,6 +225,7 @@ const Cart = (props) => {
           </Table>
         </form>
       </TableContainer>
+      <Invoice />
     </div>
   );
 };

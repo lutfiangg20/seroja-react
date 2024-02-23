@@ -18,6 +18,7 @@ import Logout from "./pages/Logout.jsx";
 import RequireAuth from "./auth/RequireAuth.jsx";
 import Penjual from "./pages/Penjual.jsx";
 import Pelanggan from "./pages/Pelanggan.jsx";
+import Invoice from "./pages/Invoice.jsx";
 
 function App() {
   return (
@@ -87,6 +88,7 @@ function App() {
               </RequireAuth>
             }
           />
+          <Route path="/invoice" element={<Invoice />} />
           <Route path="*" element={<NoPage />} />
         </Routes>
       </Router>

@@ -13,7 +13,7 @@ const Barang = () => {
   const [formData, setFormData] = useState({
     nama_barang: "",
     kategori: "",
-    stok: "",
+    stok: 0,
     harga: "",
   });
   const token = localStorage.getItem("token");
@@ -39,7 +39,7 @@ const Barang = () => {
         setFormData({
           nama_barang: "",
           kategori: "",
-          stok: "",
+          stok: 0,
           harga: "",
         });
       })
@@ -164,7 +164,7 @@ const Barang = () => {
                     name="kategori"
                     onChange={handleInput}
                     value={formData.kategori}
-                    key={formData.kategori}
+                    /*  key={formData.kategori} */
                   >
                     <option value="" disabled selected>
                       Pilih Kategori

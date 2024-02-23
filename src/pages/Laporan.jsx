@@ -22,7 +22,6 @@ const Laporan = () => {
       .then((res) => res.json())
       .then((data) => {
         setLaporan(data);
-        console.log(data);
       });
   };
 
@@ -35,7 +34,7 @@ const Laporan = () => {
       hour: "numeric",
       minute: "numeric",
     };
-    return new Intl.DateTimeFormat("en-US", options).format(date);
+    return new Intl.DateTimeFormat("id-ID", options).format(date);
   };
 
   useEffect(() => {
