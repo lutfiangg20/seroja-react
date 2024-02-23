@@ -1,7 +1,6 @@
 import {
-  MenuItem,
+  Alert,
   Paper,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -11,6 +10,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import updateStok from "../utility/updateStok";
 
 const CartPenjual = (props) => {
   const [cart, setCart] = useState([]);
@@ -18,6 +18,9 @@ const CartPenjual = (props) => {
   const [totalHarga, setTotalHarga] = useState(0);
   const [bayar, setBayar] = useState(0);
   const [pelanggan, setPelanggan] = useState([]);
+  const [pilihPelanggan, setPilihPelanggan] = useState("");
+  const [invoice, setInvoice] = useState({});
+  const [alert, setAlert] = useState(false);
 
   const findId = (id) => {
     return cart.find((item) => item.id == id);
@@ -51,7 +54,7 @@ const CartPenjual = (props) => {
                 id: item._id,
                 nama_barang: item.nama_barang,
                 harga: item.harga,
-                qty: 1,
+                stok: 1,
                 diskon: 0,
                 total_harga: 0,
                 jenis: "penjual",
@@ -68,15 +71,20 @@ const CartPenjual = (props) => {
         return a + b.total_harga;
       }, 0)
     );
+
+    setInvoice({ ...invoice, cart: cart });
   }, [cart]);
 
   const jumlah = (e, nama, harga, diskon) => {
+    if (e.target.value < 1) {
+      e.target.value = 1;
+    }
     const newCart = cart.map((item) =>
       item.nama_barang === nama
         ? {
             ...item,
             total_harga: harga * e.target.value - diskon,
-            qty: e.target.value,
+            stok: parseInt(e.target.value),
           }
         : item
     );
@@ -101,20 +109,29 @@ const CartPenjual = (props) => {
     setCart(newCart);
   };
 
+  const handlePilihPelanggan = (e) => {
+    setPilihPelanggan(e.target.value);
+    setInvoice({ ...invoice, pelanggan: e.target.value });
+  };
+
   const handleBayar = (e) => {
     e.preventDefault();
-    if (bayar >= totalHarga) {
+    if (bayar >= totalHarga && invoice.pelanggan !== "" > 0) {
       fetch("http://localhost:3000/laporan", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: localStorage.getItem("token"),
         },
-        body: JSON.stringify(cart),
+        body: JSON.stringify(invoice),
       }).then(() => {
         console.log("transaksi berhasil");
+        updateStok(cart);
+        setPilihPelanggan("");
         setCart([]);
         setBayar(0);
+        props.getData();
+        setAlert(true);
       });
     }
     if (bayar < totalHarga) {
@@ -125,19 +142,52 @@ const CartPenjual = (props) => {
   return (
     <div className="">
       <TableContainer component={Paper}>
+        {alert && (
+          <Alert
+            severity="success"
+            onClose={() => {
+              setAlert(false);
+            }}
+          >
+            Transaksi Berhasil.
+          </Alert>
+        )}
         <form onSubmit={handleBayar}>
           <Table sx={{ minWidth: 400 }} aria-label="spanning table">
             <TableHead>
               <TableRow>
-                <TableCell width={100}>Nama Pembeli</TableCell>
-                <TableCell width={500}>
-                  <Select onChange={(e) => setPelanggan(e.target.value)}>
-                    {pelanggan.map((item) => (
-                      <MenuItem value={item.nama} key={item._id}>
+                <TableCell width={50}>Nama Pembeli :</TableCell>
+                <TableCell width={100} align="left">
+                  {/* <Select
+                    onChange={(e) => setPilihPelanggan(e.target.value)}
+                    required
+                  >
+                    <MenuItem selected disabled defaultValue="">
+                      Pilih Pelanggan
+                    </MenuItem>
+                    {pelanggan.map((item, index) => (
+                      <MenuItem value={item.nama} key={index} defaultValue="">
                         {item.nama}
                       </MenuItem>
                     ))}
-                  </Select>
+                  </Select> */}
+                  <div>
+                    <select
+                      onChange={(e) => handlePilihPelanggan(e)}
+                      className="form-select"
+                      required
+                      value={pilihPelanggan}
+                    >
+                      <option value="" selected disabled>
+                        Pilih Pelanggan
+                      </option>
+                      {pelanggan.map((item, index) => (
+                        <option value={item.nama} key={index}>
+                          {item.nama}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -154,7 +204,9 @@ const CartPenjual = (props) => {
                 <TableCell width={100} align="right">
                   Total
                 </TableCell>
-                <TableCell width={100}></TableCell>
+                <TableCell width={100} align="center">
+                  {cart.length ? "Hapus" : ""}
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -186,7 +238,7 @@ const CartPenjual = (props) => {
                       label="diskon"
                       type="number"
                       onChange={(e) =>
-                        diskon(e, row.nama_barang, row.harga, row.qty)
+                        diskon(e, row.nama_barang, row.harga, row.stok)
                       }
                       InputLabelProps={{
                         shrink: true,
@@ -196,6 +248,7 @@ const CartPenjual = (props) => {
                   <TableCell align="right">Rp. {row.total_harga}</TableCell>
                   <TableCell align="center">
                     <button
+                      type="button"
                       className="btn btn-danger"
                       onClick={() => handleDelete(row.nama_barang)}
                     >

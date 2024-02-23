@@ -33,7 +33,7 @@ const Penjual = () => {
     <Layout>
       <PembelianButtons
         barang={<BarangJual barang={barang} pilih={setPilih} />}
-        cart={<CartPenjual barang={barang} pilih={pilih} />}
+        cart={<CartPenjual barang={barang} pilih={pilih} getData={getData} />}
       />
     </Layout>
   );

@@ -22,12 +22,19 @@ const Laporan = () => {
       .then((res) => res.json())
       .then((data) => {
         setLaporan(data);
+        console.log(data);
       });
   };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const options = { day: "numeric", month: "numeric", year: "numeric" };
+    const options = {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+    };
     return new Intl.DateTimeFormat("en-US", options).format(date);
   };
 
@@ -38,6 +45,11 @@ const Laporan = () => {
   const columns = useMemo(
     () => [
       {
+        accessorKey: "pelanggan", //access nested data with dot notation
+        header: "Nama Pembeli",
+        size: 50,
+      },
+      {
         accessorKey: "created_at", //access nested data with dot notation
         header: "Tanggal",
 
@@ -46,12 +58,7 @@ const Laporan = () => {
         ),
         size: 50,
       },
-      {
-        accessorKey: "nama_barang", //access nested data with dot notation
-        header: "Nama Barang",
-        size: 50,
-      },
-      {
+      /* {
         accessorKey: "qty",
         header: "Total_item",
         size: 50,
@@ -80,7 +87,7 @@ const Laporan = () => {
         accessorKey: "jenis",
         header: "Jenis Transaksi",
         size: 50,
-      },
+      }, */
     ],
     []
   );

@@ -1,4 +1,5 @@
 import {
+  Alert,
   Paper,
   Table,
   TableBody,
@@ -9,12 +10,15 @@ import {
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import updateStok from "../utility/updateStok";
 
 const Cart = (props) => {
   const [cart, setCart] = useState([]);
   /* const uniqueData = [...new Set(cart)]; */
   const [totalHarga, setTotalHarga] = useState(0);
   const [bayar, setBayar] = useState(0);
+  const [invoice, setInvoice] = useState(null);
+  const [alert, setAlert] = useState(false);
 
   const findId = (id) => {
     return cart.find((item) => item.id == id);
@@ -30,7 +34,7 @@ const Cart = (props) => {
                 id: item._id,
                 nama_barang: item.nama_barang,
                 harga: item.harga,
-                qty: 1,
+                stok: 1,
                 total_harga: 0,
                 jenis: "ecer",
               },
@@ -46,12 +50,24 @@ const Cart = (props) => {
         return a + b.total_harga;
       }, 0)
     );
+
+    setInvoice({
+      pelanggan: "ecer",
+      cart: cart,
+    });
   }, [cart]);
 
   const jumlah = (e, nama, harga) => {
+    if (e.target.value < 1) {
+      e.target.value = 1;
+    }
     const newCart = cart.map((item) =>
       item.nama_barang === nama
-        ? { ...item, total_harga: harga * e.target.value, qty: e.target.value }
+        ? {
+            ...item,
+            total_harga: harga * e.target.value,
+            stok: parseInt(e.target.value),
+          }
         : item
     );
     setCart(newCart);
@@ -62,19 +78,9 @@ const Cart = (props) => {
     setCart(newCart);
   };
 
-  const updateStok = async () => {
-    await fetch("http://localhost:3000/update/stok", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
-      },
-      body: JSON.stringify(cart),
-    }).catch((err) => console.log(err));
-  };
-
   const handleBayar = (e) => {
     e.preventDefault();
+
     if (bayar >= totalHarga) {
       fetch("http://localhost:3000/laporan", {
         method: "POST",
@@ -82,14 +88,15 @@ const Cart = (props) => {
           "Content-Type": "application/json",
           Authorization: localStorage.getItem("token"),
         },
-        body: JSON.stringify(cart),
+        body: JSON.stringify(invoice),
       }).then(() => {
         console.log("transaksi berhasil");
-        updateStok();
+        updateStok(cart);
         setCart([]);
         setBayar(0);
         console.log("bayar", bayar);
         props.getData();
+        setAlert(true);
       });
     }
     if (bayar < totalHarga) {
@@ -100,6 +107,16 @@ const Cart = (props) => {
   return (
     <div className="">
       <TableContainer component={Paper}>
+        {alert && (
+          <Alert
+            severity="success"
+            onClose={() => {
+              setAlert(false);
+            }}
+          >
+            Transaksi Berhasil.
+          </Alert>
+        )}
         <form onSubmit={handleBayar}>
           <Table sx={{ minWidth: 400 }} aria-label="spanning table">
             <TableHead>
@@ -143,6 +160,7 @@ const Cart = (props) => {
                     <button
                       className="btn btn-danger"
                       onClick={() => handleDelete(row.nama_barang)}
+                      type="button"
                     >
                       <i className="fa-solid fa-trash-can" />
                     </button>
