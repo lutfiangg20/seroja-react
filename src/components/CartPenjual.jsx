@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import updateStok from "../utility/updateStok";
+import Cookies from "universal-cookie";
 
 const CartPenjual = (props) => {
   const [cart, setCart] = useState([]);
@@ -22,6 +23,9 @@ const CartPenjual = (props) => {
   const [invoice, setInvoice] = useState({});
   const [alert, setAlert] = useState(false);
 
+  const cookie = new Cookies();
+  const token = cookie.get("token");
+
   const findId = (id) => {
     return cart.find((item) => item.id == id);
   };
@@ -31,12 +35,13 @@ const CartPenjual = (props) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
+        Authorization: token,
       },
     })
       .then((res) => res.json())
       .then((data) => {
         setPelanggan(data);
+        console.log(data);
       });
   };
 
@@ -121,7 +126,7 @@ const CartPenjual = (props) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: localStorage.getItem("token"),
+          Authorization: token,
         },
         body: JSON.stringify(invoice),
       }).then(() => {
@@ -283,18 +288,22 @@ const CartPenjual = (props) => {
                     </div>
                   </div>
                 </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell colSpan={5} align="right">
-                  <button
-                    className="btn btn-success"
-                    type="submit"
-                    /*  onClick={handleBayar} */
-                  >
+                <TableCell colSpan={5} align="center">
+                  <button className="btn btn-success" type="submit">
                     <i className="fa-solid fa-cart-shopping" /> Bayar
                   </button>
                 </TableCell>
               </TableRow>
+              {/* <TableRow>
+                <TableCell colSpan={5} align="right">
+                  <button
+                    className="btn btn-success"
+                    type="submit"
+                  >
+                    <i className="fa-solid fa-cart-shopping" /> Bayar
+                  </button>
+                </TableCell>
+              </TableRow> */}
             </TableBody>
           </Table>
         </form>

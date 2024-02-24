@@ -1,9 +1,14 @@
+import Cookies from "universal-cookie";
+
 const updateStok = async (cart) => {
+  const cookie = new Cookies();
+  const token = cookie.get("token");
+
   await fetch("http://localhost:3000/update/stok", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: localStorage.getItem("token"),
+      Authorization: token,
     },
     body: JSON.stringify(cart),
   })

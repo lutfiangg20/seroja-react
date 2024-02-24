@@ -2,11 +2,11 @@ import { Button } from "@mui/material";
 import * as XLSX from "xlsx";
 
 const ExportToExcelButton = ({ data, fileName }) => {
-  const formatDate = (dateString) => {
+  /* const formatDate = (dateString) => {
     const date = new Date(dateString);
     const options = { day: "numeric", month: "numeric", year: "numeric" };
     return new Intl.DateTimeFormat("en-US", options).format(date);
-  };
+  }; */
   const filteredData = data.map((item, index) => ({
     no: index + 1,
     nama_barang: item.nama_barang,
@@ -16,7 +16,7 @@ const ExportToExcelButton = ({ data, fileName }) => {
     diskon: item.diskon,
     total_bayar: item.total_bayar,
     jenis_transaksi: item.jenis_transaksi,
-    created_at: formatDate(item.created_at),
+    created_at: item.created_at,
   }));
   const exportToExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(filteredData);

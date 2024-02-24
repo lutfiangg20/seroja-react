@@ -24,10 +24,11 @@ const Laporan = () => {
       .then((res) => res.json())
       .then((data) => {
         setLaporan(data);
+        console.log(data);
       });
   };
 
-  const formatDate = (dateString) => {
+  /* const formatDate = (dateString) => {
     const date = new Date(dateString);
     const options = {
       day: "numeric",
@@ -37,7 +38,7 @@ const Laporan = () => {
       minute: "numeric",
     };
     return new Intl.DateTimeFormat("id-ID", options).format(date);
-  };
+  }; */
 
   useEffect(() => {
     getData();
@@ -54,9 +55,9 @@ const Laporan = () => {
         accessorKey: "created_at", //access nested data with dot notation
         header: "Tanggal",
 
-        Cell: ({ renderedCellValue }) => (
+        /*  Cell: ({ renderedCellValue }) => (
           <span>{formatDate(renderedCellValue)}</span>
-        ),
+        ), */
         size: 50,
       },
       /* {
@@ -97,6 +98,11 @@ const Laporan = () => {
     columns,
     data: laporan, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
     enableRowNumbers: true,
+    muiTableBodyCellProps: () => ({
+      sx: {
+        textTransform: "capitalize",
+      },
+    }),
   });
   return (
     <Layout>

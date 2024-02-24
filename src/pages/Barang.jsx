@@ -96,6 +96,11 @@ const Barang = () => {
     getKategori();
   }, []);
 
+  const formatter = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR", // You can change this to your desired currency code
+  });
+
   const columns = useMemo(
     () => [
       {
@@ -113,6 +118,10 @@ const Barang = () => {
       {
         accessorKey: "harga",
         header: "Harga",
+        //format rupiah
+        Cell: ({ renderedCellValue }) => (
+          <span>{formatter.format(renderedCellValue)}</span>
+        ),
       },
       {
         accessorKey: "_id",
@@ -134,6 +143,9 @@ const Barang = () => {
     muiTableBodyCellProps: ({ cell }) => ({
       onClick: () => {
         handleDelete(cell.row.original.nama_barang);
+      },
+      sx: {
+        textTransform: "capitalize",
       },
     }),
   });

@@ -56,10 +56,11 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
-        "resizable": true,
+        "height": 720,
+        "maximizable": true,
+        "minimizable": true,
         "title": "Seroja",
-        "width": 800
+        "width": 1280
       }
     ]
   }

@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import updateStok from "../utility/updateStok";
-import Invoice from "../pages/Invoice";
+import Cookies from "universal-cookie";
 
 const Cart = (props) => {
   const [cart, setCart] = useState([]);
@@ -25,14 +25,16 @@ const Cart = (props) => {
         id: "",
         nama_barang: "",
         harga: "",
-        stok: "",
+        stok: 0,
         total_harga: "",
       },
     ],
     totalHarga: 0,
   });
   const [alert, setAlert] = useState(false);
-  console.log(invoice);
+
+  const cookie = new Cookies();
+  const token = cookie.get("token");
 
   const findId = (id) => {
     return cart.find((item) => item.id == id);
@@ -96,13 +98,14 @@ const Cart = (props) => {
   const handleBayar = (e) => {
     e.preventDefault();
     localStorage.setItem("invoice", JSON.stringify(invoice));
+    console.log(invoice);
 
     if (bayar >= totalHarga) {
       fetch("http://localhost:3000/laporan", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: localStorage.getItem("token"),
+          Authorization: token,
         },
         body: JSON.stringify(invoice),
       }).then(() => {
@@ -119,6 +122,11 @@ const Cart = (props) => {
       console.log("duit mu kurang");
     }
   };
+
+  const formatter = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR", // You can change this to your desired currency code
+  });
 
   return (
     <div className="">
@@ -153,8 +161,12 @@ const Cart = (props) => {
             <TableBody>
               {cart.map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell>{row.nama_barang}</TableCell>
-                  <TableCell align="right">Rp. {row.harga}</TableCell>
+                  <TableCell sx={{ textTransform: "capitalize" }}>
+                    {row.nama_barang}
+                  </TableCell>
+                  <TableCell align="right">
+                    {formatter.format(row.harga)}
+                  </TableCell>
                   <TableCell align="right">
                     {/* <Input
                       type="number"
@@ -171,7 +183,9 @@ const Cart = (props) => {
                       }}
                     />
                   </TableCell>
-                  <TableCell align="right">Rp. {row.total_harga}</TableCell>
+                  <TableCell align="right">
+                    {formatter.format(row.total_harga)}
+                  </TableCell>
                   <TableCell align="center">
                     <button
                       className="btn btn-danger"
@@ -188,7 +202,9 @@ const Cart = (props) => {
                 <TableCell align="right" colSpan={3}>
                   Total Harga
                 </TableCell>
-                <TableCell align="right">Rp. {totalHarga}</TableCell>
+                <TableCell align="right">
+                  {formatter.format(totalHarga)}
+                </TableCell>
                 <TableCell align="right"></TableCell>
               </TableRow>
               <TableRow>
@@ -209,23 +225,26 @@ const Cart = (props) => {
                     </div>
                   </div>
                 </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell colSpan={4} align="right">
-                  <button
-                    className="btn btn-success"
-                    type="submit"
-                    /*  onClick={handleBayar} */
-                  >
+                <TableCell colSpan={4} align="center">
+                  <button className="btn btn-success" type="submit">
                     <i className="fa-solid fa-cart-shopping" /> Bayar
                   </button>
                 </TableCell>
               </TableRow>
+              {/* <TableRow>
+                <TableCell colSpan={4} align="right">
+                  <button
+                    className="btn btn-success"
+                    type="submit"
+                  >
+                    <i className="fa-solid fa-cart-shopping" /> Bayar
+                  </button>
+                </TableCell>
+              </TableRow> */}
             </TableBody>
           </Table>
         </form>
       </TableContainer>
-      <Invoice />
     </div>
   );
 };

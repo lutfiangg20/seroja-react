@@ -9,17 +9,26 @@ const BarangJual = (props) => {
     props.pilih(id);
   };
 
+  const formatter = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR", // You can change this to your desired currency code
+  });
+
   const columns = useMemo(
     () => [
       {
         accessorKey: "nama_barang", //access nested data with dot notation
         header: "Nama Barang",
         size: 200,
+        //text capitalize
       },
       {
         accessorKey: "harga",
         header: "Harga",
         size: 100,
+        Cell: ({ renderedCellValue }) => (
+          <span>{formatter.format(renderedCellValue)}</span>
+        ),
       },
       {
         accessorKey: "stok", //normal accessorKey
@@ -46,6 +55,9 @@ const BarangJual = (props) => {
     muiTableBodyCellProps: ({ cell }) => ({
       onClick: () => {
         handleClick(cell.row.original._id);
+      },
+      sx: {
+        textTransform: "capitalize",
       },
     }),
   });
