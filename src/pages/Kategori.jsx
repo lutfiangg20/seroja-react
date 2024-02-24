@@ -6,11 +6,13 @@ import {
   useMaterialReactTable,
 } from "material-react-table";
 import { GridDeleteIcon } from "@mui/x-data-grid";
+import Cookies from "universal-cookie";
 
 const Kategori = () => {
   const [kategori, setKategori] = useState([]);
   const [addkategori, setAddKategori] = useState("");
-  const token = localStorage.getItem("token");
+  let cookie = new Cookies();
+  const token = cookie.get("token");
 
   const getKategori = async () => {
     await fetch("http://localhost:3000/kategori", {

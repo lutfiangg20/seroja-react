@@ -1,7 +1,9 @@
 import { Navigate, useLocation } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 const RequireAuth = ({ children }) => {
-  let auth = localStorage.getItem("token");
+  let cookie = new Cookies();
+  let auth = cookie.get("token");
   let location = useLocation();
 
   if (!auth) {

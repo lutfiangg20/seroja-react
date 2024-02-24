@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Cookies from "universal-cookie";
 
 const Logout = () => {
   const dataLogout = () => {
@@ -10,7 +11,8 @@ const Logout = () => {
       /* body: JSON.stringify({}), */
     });
   };
-
+  let cookie = new Cookies();
+  cookie.remove("token", { path: "/" });
   localStorage.removeItem("token");
   window.location.href = "/login";
 

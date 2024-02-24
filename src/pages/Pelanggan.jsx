@@ -6,11 +6,13 @@ import Layout from "../components/Layout";
 import TambahPelanggan from "../components/TambahPelanggan";
 import { useEffect, useMemo, useState } from "react";
 import { GridDeleteIcon } from "@mui/x-data-grid";
+import Cookies from "universal-cookie";
 
 const Pelanggan = () => {
   const [pelanggan, setPelanggan] = useState([]);
   const [addPelanggan, setAddPelanggan] = useState("");
-  const token = localStorage.getItem("token");
+  let cookie = new Cookies();
+  const token = cookie.get("token");
 
   const getPelanggan = async () => {
     await fetch("http://localhost:3000/pelanggan", {

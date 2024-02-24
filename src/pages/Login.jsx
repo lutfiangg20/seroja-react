@@ -1,6 +1,7 @@
 /* import { useState } from "react"; */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 /* import { NavLink } from "react-router-dom"; */
 
 const Login = () => {
@@ -14,6 +15,12 @@ const Login = () => {
   /* const token = useSelector((state) => state.auth.token); */
   const navigate = useNavigate();
 
+  /*   const expirationDate = new Date();
+  expirationDate.setDate(expirationDate.getDate() + 1);
+  const expires = expirationDate.toUTCString(); */
+
+  const cookie = new Cookies();
+
   const handleSubmit = async (e) => {
     e.preventDefault;
     await fetch("http://localhost:3000/login", {
@@ -26,7 +33,12 @@ const Login = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.token) {
-          localStorage.setItem("token", data.token);
+          /* localStorage.setItem("token", data.token); */
+          cookie.set("token", data.token, {
+            path: "/",
+            maxAge: 60 * 60 * 24,
+          });
+
           navigate("/kasir/ecer");
         } else {
           navigate("/login");

@@ -6,6 +6,7 @@ import {
   useMaterialReactTable,
 } from "material-react-table";
 import { GridDeleteIcon } from "@mui/x-data-grid";
+import Cookies from "universal-cookie";
 
 const Barang = () => {
   const [barang, setBarang] = useState([]);
@@ -16,7 +17,8 @@ const Barang = () => {
     stok: 0,
     harga: "",
   });
-  const token = localStorage.getItem("token");
+  let cookie = new Cookies();
+  const token = cookie.get("token");
 
   const handleInput = (e) => {
     const { name, value } = e.target;

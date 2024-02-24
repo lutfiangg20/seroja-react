@@ -6,10 +6,12 @@ import {
 } from "material-react-table";
 
 import ExportToExcelButton from "../components/ExportToExcel";
+import Cookies from "universal-cookie";
 
 const Laporan = () => {
   const [laporan, setLaporan] = useState([]);
-  const token = localStorage.getItem("token");
+  let cookie = new Cookies();
+  const token = cookie.get("token");
 
   const getData = async () => {
     await fetch("http://localhost:3000/laporan", {
