@@ -1,13 +1,15 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-use serde_json::Value;
+/* use serde_json::Value;
 use std::fs::File;
 use std::io::prelude::*;
 use std::path::PathBuf;
 use dirs;
+use std::env; */
 
 
-use mongodb::{Client, options::ClientOptions, bson::{self, Document}};
+
+/* use mongodb::{Client,Database, options::ClientOptions, bson::{self, Document}};
 
 use serde_json;
 
@@ -27,14 +29,36 @@ async fn add_data(db: String, collection: String, data: String) -> Result<(), St
 
     Ok(())
 }
+ */
+/* async fn read_data<E: std::convert::From<mongodb::error::Error>>() -> Result<Vec<Document>, Error> {
+    let uri = env::var("mongodb://localhost:27017").expect("MONGODB_URI not set");
+    let client = Client::with_uri_str(&uri).await?;
+    let db_name = env::var("seroja").expect("MONGODB_DB not set");
+    let db: Database = client.database(&db_name);
+    let collection_name = env::var("kategori").expect("MONGODB_COLLECTION not set");
+    let collection = db.collection(&collection_name);
+    let mut cursor = collection.find(None, None).await?;
 
 
+    let mut documents = Vec::new();
+    while cursor.advance().await? {
+        documents.push(cursor.deserialize_current()?);
+    }
 
-fn main() {
-  
+    Ok::<Vec<()>, E>(documents)
+}
+ */
+ use std::process::Command;
+fn node_server(){
+    let _ = Command::new("node")
+  .arg("server/server.js")
+  .status();
+ }
+
+fn main() { 
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![add_data,read_data])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
+    node_server();
 }
 

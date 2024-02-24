@@ -7,7 +7,6 @@ import {
 } from "material-react-table";
 import { GridDeleteIcon } from "@mui/x-data-grid";
 import Cookies from "universal-cookie";
-import { invoke } from "@tauri-apps/api";
 
 const Kategori = () => {
   const [kategori, setKategori] = useState([]);
@@ -35,7 +34,7 @@ const Kategori = () => {
 
   const handleTambah = async (e) => {
     e.preventDefault();
-    /* fetch("http://localhost:3000/kategori", {
+    fetch("http://localhost:3000/kategori", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,17 +46,17 @@ const Kategori = () => {
         getKategori();
         setAddKategori("");
       })
-      .catch((err) => console.log(err)); */
-    const data = {
+      .catch((err) => console.log(err));
+    /* const data = {
       nama_kategori: addkategori,
     };
     const db = "seroja"; // Nama database MongoDB
-    const collection = "kategori"; // Nama koleksi MongoDB
+    const collection = "kategori"; // Nama koleksi MongoDB */
 
     /* await invoke("add_data", { data: JSON.stringify(data) }).then((res) => {
       console.log(res);
     }); */
-    try {
+    /* try {
       await invoke("add_data", {
         db,
         collection,
@@ -66,7 +65,7 @@ const Kategori = () => {
       console.log("Data successfully added to MongoDB");
     } catch (error) {
       console.error("Failed to add data to MongoDB:", error);
-    }
+    } */
   };
 
   const handleDelete = (nama) => {
