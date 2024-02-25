@@ -51,7 +51,7 @@ const Pelanggan = () => {
   };
 
   const handleDelete = (nama) => {
-    fetch(`http://localhost:3000/kategori/${nama}`, {
+    fetch(`http://localhost:3000/pelanggan/${nama}`, {
       method: "delete",
       headers: {
         "Content-Type": "application/json",
@@ -75,8 +75,11 @@ const Pelanggan = () => {
       {
         accessorKey: "_id",
         header: "Action",
-        Cell: () => (
-          <button className="btn btn-danger">
+        Cell: (cell) => (
+          <button
+            className="btn btn-danger"
+            onClick={() => handleDelete(cell.row.original.nama)}
+          >
             <GridDeleteIcon />
           </button>
         ),
@@ -90,10 +93,7 @@ const Pelanggan = () => {
     columns,
     data: pelanggan, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
     enableRowNumbers: true,
-    muiTableBodyCellProps: ({ cell }) => ({
-      onClick: () => {
-        handleDelete(cell.row.original.nama_kategori);
-      },
+    muiTableBodyCellProps: () => ({
       sx: {
         textTransform: "capitalize",
       },

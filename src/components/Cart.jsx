@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import updateStok from "../utility/updateStok";
 import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 
 const Cart = (props) => {
   const [cart, setCart] = useState([]);
@@ -95,6 +96,7 @@ const Cart = (props) => {
     setCart(newCart);
   };
 
+  const navigate = useNavigate();
   const handleBayar = (e) => {
     e.preventDefault();
     localStorage.setItem("invoice", JSON.stringify(invoice));
@@ -116,6 +118,7 @@ const Cart = (props) => {
         console.log("bayar", bayar);
         props.getData();
         setAlert(true);
+        navigate("/invoice");
       });
     }
     if (bayar < totalHarga) {

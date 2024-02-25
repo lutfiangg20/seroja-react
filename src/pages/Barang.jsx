@@ -126,8 +126,11 @@ const Barang = () => {
       {
         accessorKey: "_id",
         header: "Action",
-        Cell: () => (
-          <button className="btn btn-danger">
+        Cell: ({ cell }) => (
+          <button
+            className="btn btn-danger"
+            onClick={() => handleDelete(cell.row.original.nama_barang)}
+          >
             <GridDeleteIcon />
           </button>
         ),
@@ -140,10 +143,10 @@ const Barang = () => {
     columns,
     data: barang, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
     enableRowNumbers: true,
-    muiTableBodyCellProps: ({ cell }) => ({
-      onClick: () => {
+    muiTableBodyCellProps: () => ({
+      /* onClick: () => {
         handleDelete(cell.row.original.nama_barang);
-      },
+      }, */
       sx: {
         textTransform: "capitalize",
       },

@@ -6,14 +6,16 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-/* import { useEffect } from "react"; */
+import { useEffect } from "react";
 
 const Invoice = () => {
   const invoice = JSON.parse(localStorage.getItem("invoice"));
 
-  /*   useEffect(() => {
+  useEffect(() => {
     window.print();
-  }, []); */
+    //redirect back()
+    window.history.back();
+  }, []);
 
   return (
     <TableContainer component={Paper}>

@@ -93,8 +93,11 @@ const Kategori = () => {
       {
         accessorKey: "_id",
         header: "Action",
-        Cell: () => (
-          <button className="btn btn-danger">
+        Cell: ({ cell }) => (
+          <button
+            className="btn btn-danger"
+            onClick={() => handleDelete(cell.row.original.nama_kategori)}
+          >
             <GridDeleteIcon />
           </button>
         ),
@@ -108,10 +111,10 @@ const Kategori = () => {
     columns,
     data: kategori, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
     enableRowNumbers: true,
-    muiTableBodyCellProps: ({ cell }) => ({
-      onClick: () => {
+    muiTableBodyCellProps: () => ({
+      /* onClick: () => {
         handleDelete(cell.row.original.nama_kategori);
-      },
+      }, */
       sx: {
         textTransform: "capitalize",
       },

@@ -48,17 +48,20 @@ async fn add_data(db: String, collection: String, data: String) -> Result<(), St
     Ok::<Vec<()>, E>(documents)
 }
  */
- use std::process::Command;
+/*  use std::process::Command; */
+
+/* #[tauri::command]
 fn node_server(){
-    let _ = Command::new("node")
-  .arg("server/server.js")
+    let _ = Command::new("nodemon")
+  .arg("/server-seroja/server.js")
   .status();
- }
+  //mengembalikan response
+  println!("nodemon running");
+ } */
 
 fn main() { 
-  tauri::Builder::default()
+    tauri::Builder::default()
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
-    node_server();
 }
 
