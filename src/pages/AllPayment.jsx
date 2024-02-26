@@ -1,19 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
-import Layout from "../components/Layout";
 import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-
 import ExportToExcelButton from "../components/ExportToExcel";
-import Cookies from "universal-cookie";
 import LaporanButtons from "../components/LaporanButtons";
+import Layout from "../components/Layout";
+import Cookies from "universal-cookie";
+import { useEffect, useMemo, useState } from "react";
 
-const Laporan = () => {
+const AllPayment = () => {
   const [laporan, setLaporan] = useState([]);
   let cookie = new Cookies();
   const token = cookie.get("token");
-
   const getData = async () => {
     await fetch("http://localhost:3000/laporan", {
       method: "GET",
@@ -24,23 +22,17 @@ const Laporan = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setLaporan(data);
-        console.log(data);
+        console.log("ini data awal :", data);
+        data.map((item) => {
+          item.cart.map((cart) => {
+            setLaporan((laporan) => [...laporan, cart]);
+            setLaporan((laporan) => [...laporan, { tanggal: item.created_at }]);
+          });
+        });
       });
   };
 
-  /* const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const options = {
-      day: "numeric",
-      month: "numeric",
-      year: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-    };
-    return new Intl.DateTimeFormat("id-ID", options).format(date);
-  }; */
-
+  console.log(laporan);
   useEffect(() => {
     getData();
   }, []);
@@ -48,21 +40,18 @@ const Laporan = () => {
   const columns = useMemo(
     () => [
       {
-        accessorKey: "pelanggan", //access nested data with dot notation
+        accessorKey: "jenis", //access nested data with dot notation
         header: "Nama Pembeli",
         size: 50,
       },
       {
-        accessorKey: "created_at", //access nested data with dot notation
-        header: "Tanggal",
-
-        /*  Cell: ({ renderedCellValue }) => (
-          <span>{formatDate(renderedCellValue)}</span>
-        ), */
+        accessorKey: "nama_barang", //access nested data with dot notation
+        header: "Nama Barang",
         size: 50,
       },
-      /* {
-        accessorKey: "qty",
+
+      {
+        accessorKey: "stok",
         header: "Total_item",
         size: 50,
       },
@@ -72,21 +61,30 @@ const Laporan = () => {
         size: 50,
       },
       {
-        accessorKey: "total_harga",
-        header: "Total Harga",
-        size: 50,
-      },
-      {
         accessorKey: "diskon",
         header: "Diskon",
         size: 50,
       },
       {
-        accessorKey: "total_bayar",
-        header: "Total Bayar",
+        accessorKey: "total_harga",
+        header: "Total Harga",
         size: 50,
       },
       {
+        accessorKey: "tanggal", //access nested data with dot notation
+        header: "Tanggal",
+
+        /*  Cell: ({ renderedCellValue }) => (
+          <span>{formatDate(renderedCellValue)}</span>
+        ), */
+        size: 50,
+      },
+      /* {
+        accessorKey: "total_bayar",
+        header: "Total Bayar",
+        size: 50,
+      }, */
+      /*  {
         accessorKey: "jenis",
         header: "Jenis Transaksi",
         size: 50,
@@ -120,4 +118,4 @@ const Laporan = () => {
   );
 };
 
-export default Laporan;
+export default AllPayment;

@@ -7,6 +7,7 @@ import {
 } from "material-react-table";
 import { GridDeleteIcon } from "@mui/x-data-grid";
 import Cookies from "universal-cookie";
+import { Tooltip } from "@mui/material";
 
 const Kategori = () => {
   const [kategori, setKategori] = useState([]);
@@ -98,7 +99,9 @@ const Kategori = () => {
             className="btn btn-danger"
             onClick={() => handleDelete(cell.row.original.nama_kategori)}
           >
-            <GridDeleteIcon />
+            <Tooltip title="Hapus" placement="top">
+              <GridDeleteIcon />
+            </Tooltip>
           </button>
         ),
         maxSize: 2,

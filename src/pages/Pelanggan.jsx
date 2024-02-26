@@ -7,6 +7,7 @@ import TambahPelanggan from "../components/TambahPelanggan";
 import { useEffect, useMemo, useState } from "react";
 import { GridDeleteIcon } from "@mui/x-data-grid";
 import Cookies from "universal-cookie";
+import { Tooltip } from "@mui/material";
 
 const Pelanggan = () => {
   const [pelanggan, setPelanggan] = useState([]);
@@ -80,7 +81,9 @@ const Pelanggan = () => {
             className="btn btn-danger"
             onClick={() => handleDelete(cell.row.original.nama)}
           >
-            <GridDeleteIcon />
+            <Tooltip title="Hapus" placement="top">
+              <GridDeleteIcon />
+            </Tooltip>
           </button>
         ),
         maxSize: 2,

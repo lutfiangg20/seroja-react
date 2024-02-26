@@ -19,6 +19,7 @@ import RequireAuth from "./auth/RequireAuth.jsx";
 import Penjual from "./pages/Penjual.jsx";
 import Pelanggan from "./pages/Pelanggan.jsx";
 import Invoice from "./pages/Invoice.jsx";
+import AllPayment from "./pages/AllPayment.jsx";
 
 function App() {
   return (
@@ -62,7 +63,23 @@ function App() {
             }
           />
 
-          <Route path="/laporan" element={<Laporan />} />
+          <Route
+            path="/laporan"
+            element={
+              <RequireAuth>
+                <Laporan />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/semua-laporan"
+            element={
+              <RequireAuth>
+                <AllPayment />
+              </RequireAuth>
+            }
+          />
 
           <Route
             path="/pelanggan"
@@ -72,6 +89,7 @@ function App() {
               </RequireAuth>
             }
           />
+
           <Route
             path="/barang"
             element={
