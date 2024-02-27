@@ -6,6 +6,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { invoke } from "@tauri-apps/api";
 import { useEffect } from "react";
 
 const Invoice = () => {
@@ -13,7 +14,8 @@ const Invoice = () => {
 
   useEffect(() => {
     window.print();
-    //redirect back()
+    //redirect back(
+    invoke("node_server");
     window.history.back();
   }, []);
 

@@ -7,6 +7,7 @@ import LaporanButtons from "../components/LaporanButtons";
 import Layout from "../components/Layout";
 import Cookies from "universal-cookie";
 import { useEffect, useMemo, useState } from "react";
+import moment from "moment";
 
 const AllPayment = () => {
   const [laporan, setLaporan] = useState([]);
@@ -22,17 +23,15 @@ const AllPayment = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("ini data awal :", data);
+        console.log(data);
         data.map((item) => {
           item.cart.map((cart) => {
             setLaporan((laporan) => [...laporan, cart]);
-            setLaporan((laporan) => [...laporan, { tanggal: item.created_at }]);
           });
         });
       });
   };
 
-  console.log(laporan);
   useEffect(() => {
     getData();
   }, []);
@@ -71,12 +70,14 @@ const AllPayment = () => {
         size: 50,
       },
       {
-        accessorKey: "tanggal", //access nested data with dot notation
+        accessorKey: "created_at", //access nested data with dot notation
         header: "Tanggal",
 
-        /*  Cell: ({ renderedCellValue }) => (
-          <span>{formatDate(renderedCellValue)}</span>
-        ), */
+        Cell: ({ renderedCellValue }) => (
+          <span>
+            {moment(renderedCellValue).format("DD-MM-YYYY, HH:mm:ss ")}
+          </span>
+        ),
         size: 50,
       },
       /* {

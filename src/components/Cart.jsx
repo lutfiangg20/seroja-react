@@ -28,12 +28,14 @@ const Cart = (props) => {
         harga: "",
         stok: 0,
         total_harga: "",
+        created_at: "",
       },
     ],
     totalHarga: 0,
   });
   const [alert, setAlert] = useState(false);
 
+  const date = new Date();
   const cookie = new Cookies();
   const token = cookie.get("token");
 
@@ -54,6 +56,7 @@ const Cart = (props) => {
                 stok: 1,
                 total_harga: 0,
                 jenis: "ecer",
+                created_at: date,
               },
             ])
           : null
