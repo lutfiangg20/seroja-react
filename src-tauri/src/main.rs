@@ -50,7 +50,7 @@ async fn add_data(db: String, collection: String, data: String) -> Result<(), St
  */
  use std::process::Command;
 
-#[tauri::command]
+/* #[tauri::command]
 fn node_server(){
     let _ = Command::new("node")
   .arg("server")
@@ -58,14 +58,20 @@ fn node_server(){
   .output();
   
   println!("nodemon running");
- }
+ } */
 
  //make function to run server.js
 
 
 fn main() { 
     tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![node_server])
+    .setup(|app|{
+        let _ = Command::new("node")
+        .arg("server")
+        .current_dir("C:/server-seroja")
+        .spawn();
+    Ok(())
+    })
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }

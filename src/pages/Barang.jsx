@@ -46,7 +46,7 @@ const Barang = () => {
           nama_barang: "",
           kategori: "",
           stok: 0,
-          harga: "",
+          harga: 0,
         });
       })
       .catch((err) => console.log(err));
@@ -271,6 +271,7 @@ const Barang = () => {
                     name="stok"
                     placeholder="Stok"
                     onChange={handleInput}
+                    value={formData.stok}
                   />
                 </div>
                 <div className="col-sm-2">

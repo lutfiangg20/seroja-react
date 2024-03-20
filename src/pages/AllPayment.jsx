@@ -23,7 +23,7 @@ const AllPayment = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        setLaporan([]);
         data.map((item) => {
           item.cart.map((cart) => {
             setLaporan((laporan) => [...laporan, cart]);
@@ -36,10 +36,14 @@ const AllPayment = () => {
     getData();
   }, []);
 
+  useEffect(() => {
+    setTotalPemasukan(laporan.reduce((a, b) => a + b.total_harga, 0));
+  }, [laporan]);
+
   const columns = useMemo(
     () => [
       {
-        accessorKey: "jenis", //access nested data with dot notation
+        accessorKey: "pelanggan", //access nested data with dot notation
         header: "Nama Pembeli",
         size: 50,
       },
@@ -94,6 +98,12 @@ const AllPayment = () => {
     []
   );
 
+  const [totalPemasukan, setTotalPemasukan] = useState(0);
+  const formatter = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR", // You can change this to your desired currency code
+  });
+
   const table = useMaterialReactTable({
     columns,
     data: laporan, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
@@ -109,7 +119,8 @@ const AllPayment = () => {
       <LaporanButtons />
       <div className="card">
         <div className="card-body">
-          <div className="d-flex justify-content-end mb-3">
+          <div className="d-flex justify-content-between mb-3">
+            <h4>Total Pemasukan : {formatter.format(totalPemasukan)}</h4>
             <ExportToExcelButton data={laporan} fileName="Laporan" />
           </div>
           <MaterialReactTable table={table} />

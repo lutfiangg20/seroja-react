@@ -6,7 +6,6 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { invoke } from "@tauri-apps/api";
 import { useEffect } from "react";
 
 const Invoice = () => {
@@ -15,7 +14,6 @@ const Invoice = () => {
   useEffect(() => {
     window.print();
     //redirect back(
-    invoke("node_server");
     window.history.back();
   }, []);
 
@@ -58,7 +56,7 @@ const Invoice = () => {
           <TableHead>
             <TableRow>
               <TableCell width={140}>Nama Pembeli :</TableCell>
-              <TableCell width={100}>Umum</TableCell>
+              <TableCell width={100}>{invoice.pelanggan}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell width={100}>Nama Barang</TableCell>
