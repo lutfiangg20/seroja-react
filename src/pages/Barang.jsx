@@ -10,6 +10,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import Cookies from "universal-cookie";
 import { Box, Modal } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
+import { invoke } from "@tauri-apps/api";
 
 const Barang = () => {
   const [barang, setBarang] = useState([]);
@@ -95,9 +96,16 @@ const Barang = () => {
       });
   };
 
+  const invokeBarang = async () => {
+    invoke("get_barang", {}).then((res) => {
+      console.log("invoke : ", res);
+    });
+  };
+
   useEffect(() => {
     getBarang();
     getKategori();
+    invokeBarang();
   }, []);
 
   const formatter = new Intl.NumberFormat("id-ID", {
