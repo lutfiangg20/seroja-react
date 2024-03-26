@@ -28,14 +28,18 @@ const Cart = (props) => {
         harga: "",
         stok: 0,
         total_harga: "",
+        created_at: "",
+        pelanggan: "ecer",
       },
     ],
     totalHarga: 0,
   });
   const [alert, setAlert] = useState(false);
 
+  const date = new Date();
   const cookie = new Cookies();
   const token = cookie.get("token");
+  console.log(date);
 
   const findId = (id) => {
     return cart.find((item) => item.id == id);
@@ -54,6 +58,7 @@ const Cart = (props) => {
                 stok: 1,
                 total_harga: 0,
                 jenis: "ecer",
+                created_at: date,
               },
             ])
           : null
@@ -100,7 +105,6 @@ const Cart = (props) => {
   const handleBayar = (e) => {
     e.preventDefault();
     localStorage.setItem("invoice", JSON.stringify(invoice));
-    console.log(invoice);
 
     if (bayar >= totalHarga) {
       fetch("http://localhost:3000/laporan", {

@@ -48,57 +48,30 @@ async fn add_data(db: String, collection: String, data: String) -> Result<(), St
     Ok::<Vec<()>, E>(documents)
 }
  */
-/*  use std::process::Command; */
+ use std::process::Command;
 
 /* #[tauri::command]
 fn node_server(){
-    let _ = Command::new("nodemon")
-  .arg("/server-seroja/server.js")
-  .status();
-  //mengembalikan response
+    let _ = Command::new("node")
+  .arg("server")
+  .current_dir("C:/server-seroja")
+  .output();
+  
   println!("nodemon running");
  } */
- use mongodb::{ 
-	bson::{ Document},
-	Client,
-	Collection 
-};
-use futures::{ stream::TryStreamExt};
-use serde::Deserialize;
-use serde_json::json;
 
-
-#[tokio::main]
-async fn connect_database(col:&str) -> mongodb::error::Result<()> {
-    // Replace the placeholder with your Atlas connection string
-    let uri = "mongodb://localhost:27017";
-    // Create a new client and connect to the server
-    let client = Client::with_uri_str(uri).await?;
-    // Get a handle on the movies collection
-    let database = client.database("seroja");
-    let collection: Collection<Document> = database.collection(col);
-    //find all
-    let mut barang = collection.find(None,None).await?;
-    // Print all document
-    while let Some(doc) = barang.try_next().await? {
-        println!("{}", doc);
-    }
-    Ok(())
-}
-
-#[tauri::command]
-fn get_barang() {
-   /*  "Hello from Rust!".into(); */
-    let data ="barang";
-    let data2 =connect_database(data).unwrap();
-    json!(data2);
-    /* Ok(connect_database(data).unwrap().to_string()) */
-}
+ //make function to run server.js
 
 
 fn main() { 
     tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![get_barang])
+    .setup(|app|{
+        let _ = Command::new("node")
+        .arg("server")
+        .current_dir("C:/server-seroja")
+        .spawn();
+    Ok(())
+    })
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }

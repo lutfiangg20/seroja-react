@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import updateStok from "../utility/updateStok";
 import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 
 const CartPenjual = (props) => {
   const [cart, setCart] = useState([]);
@@ -20,11 +21,28 @@ const CartPenjual = (props) => {
   const [bayar, setBayar] = useState(0);
   const [pelanggan, setPelanggan] = useState([]);
   const [pilihPelanggan, setPilihPelanggan] = useState("");
-  const [invoice, setInvoice] = useState({});
+  const [invoice, setInvoice] = useState({
+    pelanggan: "",
+    cart: [
+      {
+        id: "",
+        nama_barang: "",
+        harga: "",
+        stok: 0,
+        total_harga: "",
+        created_at: "",
+        pelanggan: "",
+      },
+    ],
+    totalHarga: 0,
+    pelanggan_id: "",
+    created_at: "",
+  });
   const [alert, setAlert] = useState(false);
 
   const cookie = new Cookies();
   const token = cookie.get("token");
+  const date = new Date();
 
   const findId = (id) => {
     return cart.find((item) => item.id == id);
@@ -41,7 +59,6 @@ const CartPenjual = (props) => {
       .then((res) => res.json())
       .then((data) => {
         setPelanggan(data);
-        console.log(data);
       });
   };
 
@@ -63,6 +80,7 @@ const CartPenjual = (props) => {
                 diskon: 0,
                 total_harga: 0,
                 jenis: "penjual",
+                created_at: date,
               },
             ])
           : null
@@ -119,9 +137,20 @@ const CartPenjual = (props) => {
     setInvoice({ ...invoice, pelanggan: e.target.value });
   };
 
+  const navigate = useNavigate();
   const handleBayar = (e) => {
     e.preventDefault();
-    if (bayar >= totalHarga && invoice.pelanggan !== "" > 0) {
+    invoice.created_at = date;
+    const newCart = cart.map((item) => ({
+      ...item,
+      pelanggan: pilihPelanggan,
+    }));
+    setCart(newCart);
+    invoice.cart = cart;
+    localStorage.setItem("invoice", JSON.stringify(invoice));
+    console.log(invoice);
+
+    /* if (bayar >= totalHarga && invoice.pelanggan !== "" > 0) {
       fetch("http://localhost:3000/laporan", {
         method: "POST",
         headers: {
@@ -137,8 +166,9 @@ const CartPenjual = (props) => {
         setBayar(0);
         props.getData();
         setAlert(true);
+        navigate("/invoice");
       });
-    }
+    } */
     if (bayar < totalHarga) {
       console.log("duit mu kurang");
     }

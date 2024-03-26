@@ -20,8 +20,14 @@ import Penjual from "./pages/Penjual.jsx";
 import Pelanggan from "./pages/Pelanggan.jsx";
 import Invoice from "./pages/Invoice.jsx";
 import AllPayment from "./pages/AllPayment.jsx";
+import { useEffect } from "react";
+import { invoke } from "@tauri-apps/api";
 
 function App() {
+  useEffect(() => {
+    invoke("node_server");
+  }, []);
+
   return (
     <>
       <Router>

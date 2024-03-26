@@ -13,7 +13,7 @@ const Invoice = () => {
 
   useEffect(() => {
     window.print();
-    //redirect back()
+    //redirect back(
     window.history.back();
   }, []);
 
@@ -56,7 +56,7 @@ const Invoice = () => {
           <TableHead>
             <TableRow>
               <TableCell width={140}>Nama Pembeli :</TableCell>
-              <TableCell width={100}>Umum</TableCell>
+              <TableCell width={100}>{invoice.pelanggan}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell width={100}>Nama Barang</TableCell>

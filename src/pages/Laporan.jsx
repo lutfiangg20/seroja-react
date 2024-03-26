@@ -56,8 +56,10 @@ const Laporan = () => {
         accessorKey: "created_at", //access nested data with dot notation
         header: "Tanggal",
 
-        /*  Cell: ({ renderedCellValue }) => (
-          <span>{formatDate(renderedCellValue)}</span>
+        /* Cell: ({ renderedCellValue }) => (
+          <span>
+            {moment(renderedCellValue).format("DD-MM-YYYY, HH:mm:ss ")}
+          </span>
         ), */
         size: 50,
       },
