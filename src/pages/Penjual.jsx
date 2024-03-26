@@ -3,14 +3,15 @@ import BarangJual from "../components/BarangJual";
 import Layout from "../components/Layout";
 import PembelianButtons from "../components/PembelianButtons";
 import CartPenjual from "../components/CartPenjual";
-import Cookies from "universal-cookie";
+/* import Cookies from "universal-cookie"; */
+import { invoke } from "@tauri-apps/api";
 
 const Penjual = () => {
   const [barang, setBarang] = useState([]);
-  const cookie = new Cookies();
-  const token = cookie.get("token");
+  /*  const cookie = new Cookies();
+  const token = cookie.get("token"); */
   const getData = async () => {
-    await fetch("http://localhost:3000/barang", {
+    /* await fetch("http://localhost:3000/barang", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -23,7 +24,12 @@ const Penjual = () => {
       })
       .catch((err) => {
         console.log(err);
-      });
+      }); */
+
+    invoke("get_barang", {}).then((res) => {
+      res = JSON.parse(res);
+      setBarang(res);
+    });
   };
 
   useEffect(() => {

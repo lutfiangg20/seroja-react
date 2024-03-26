@@ -18,7 +18,7 @@ tauri-build = { version = "1.5.1", features = [] }
 serde_json = "1.0"
 serde = "1.0.188"
 futures = "0.3.30"
-tauri = { version = "1.6.0", features = [] }
+tauri = { version = "1.6.0", features = ["api-all"] }
 tauri-plugin-store = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
 bson = { version = "2", features = ["chrono-0_4"] } # Needed for using chrono datetime in doc
 tokio = "1.36.0"

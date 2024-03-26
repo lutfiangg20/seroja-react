@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import updateStok from "../utility/updateStok";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
+import { invoke } from "@tauri-apps/api";
 
 const Cart = (props) => {
   const [cart, setCart] = useState([]);
@@ -37,8 +38,8 @@ const Cart = (props) => {
   const [alert, setAlert] = useState(false);
 
   const date = new Date();
-  const cookie = new Cookies();
-  const token = cookie.get("token");
+  /*   const cookie = new Cookies();
+  const token = cookie.get("token"); */
   console.log(date);
 
   const findId = (id) => {
@@ -102,12 +103,12 @@ const Cart = (props) => {
   };
 
   const navigate = useNavigate();
-  const handleBayar = (e) => {
+  const handleBayar = async (e) => {
     e.preventDefault();
     localStorage.setItem("invoice", JSON.stringify(invoice));
 
     if (bayar >= totalHarga) {
-      fetch("http://localhost:3000/laporan", {
+      /* fetch("http://localhost:3000/laporan", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -117,6 +118,20 @@ const Cart = (props) => {
       }).then(() => {
         console.log("transaksi berhasil");
         updateStok(cart);
+        setCart([]);
+        setBayar(0);
+        console.log("bayar", bayar);
+        props.getData();
+        setAlert(true);
+        navigate("/invoice");
+      }); */
+
+      invoke("add_laporan", {
+        pelanggan: invoice.pelanggan,
+        cart: JSON.stringify(invoice.cart),
+        totalHarga: invoice.totalHarga,
+      }).then(() => {
+        console.log("transaksi berhasil");
         setCart([]);
         setBayar(0);
         console.log("bayar", bayar);
