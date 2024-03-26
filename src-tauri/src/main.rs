@@ -70,21 +70,22 @@ fn node_server(){
  //make function to run server.js
 
  #[tokio::main]
- async fn get_connection()-> Database {
+ async fn get_connection(col:&str)-> Collection<Document> {
     let client_options  = ClientOptions::parse("mongodb://localhost:27017").await.expect("Failed to parse MongoDB URI");
     let client = Client::with_options(client_options).expect("Failed to connect to MongoDB"); 
     // Get a handle to the database
     let db = client.database("seroja");
     println!("Pinged your deployment. You successfully connected to MongoDB!");
-    return db;
+    let collection:Collection<Document>  = db.collection(col);
+    return collection;
  }
  
  #[tauri::command]
  async fn get_barang()-> String {
 
     // Create a Client using the ClientOptions
-    let db=get_connection().await.expect("Failed to connect to MongoDB");
-    let collection:Collection<Document>  = db.collection("barang");
+    let col:&str = "barang";
+    let collection =get_connection(col);
     let cursor = collection.find(None, None).await.expect("Failed to find data");
 
     let serial: Vec<Document> = cursor.try_collect().await.expect("Failed to deserialize data");
@@ -96,13 +97,13 @@ fn node_server(){
 
 fn main() { 
     tauri::Builder::default()
-   /*  .setup(|app|{
+    .setup(|app|{
         let _ = Command::new("node")
         .arg("server")
         .current_dir("C:/server-seroja")
         .spawn();
     Ok(())
-    }) */
+    })
     .invoke_handler(tauri::generate_handler![get_barang])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
