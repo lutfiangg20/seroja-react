@@ -49,6 +49,13 @@ async fn add_data(db: String, collection: String, data: String) -> Result<(), St
 }
  */
  use std::process::Command;
+ use mongodb::{bson::{doc,Document},
+ error::Error,Client, Collection,options::ClientOptions,
+ Database,};
+ //use trystream
+ use futures::TryStreamExt;
+ 
+ 
 
 /* #[tauri::command]
 fn node_server(){
@@ -62,6 +69,31 @@ fn node_server(){
 
  //make function to run server.js
 
+ #[tokio::main]
+ async fn get_connection(col:&str)-> Collection<Document> {
+    let client_options  = ClientOptions::parse("mongodb://localhost:27017").await.expect("Failed to parse MongoDB URI");
+    let client = Client::with_options(client_options).expect("Failed to connect to MongoDB"); 
+    // Get a handle to the database
+    let db = client.database("seroja");
+    println!("Pinged your deployment. You successfully connected to MongoDB!");
+    let collection:Collection<Document>  = db.collection(col);
+    return collection;
+ }
+ 
+ #[tauri::command]
+ async fn get_barang()-> String {
+
+    // Create a Client using the ClientOptions
+    let col:&str = "barang";
+    let collection =get_connection(col);
+    let cursor = collection.find(None, None).await.expect("Failed to find data");
+
+    let serial: Vec<Document> = cursor.try_collect().await.expect("Failed to deserialize data");
+    serde_json::to_string(&serial).expect("Failed to serialize data")
+ }
+
+ 
+
 
 fn main() { 
     tauri::Builder::default()
@@ -72,6 +104,7 @@ fn main() {
         .spawn();
     Ok(())
     })
+    .invoke_handler(tauri::generate_handler![get_barang])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }

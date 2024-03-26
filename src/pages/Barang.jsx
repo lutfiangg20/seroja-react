@@ -96,16 +96,16 @@ const Barang = () => {
       });
   };
 
-  const tesTauri = async () => {
-    invoke("get_barang")
-      .then((message) => console.log("ini invoke: ", message))
-      .catch((error) => console.error(error));
+  const invokeBarang = async () => {
+    invoke("get_barang", {}).then((res) => {
+      console.log("invoke : ", res);
+    });
   };
 
   useEffect(() => {
     getBarang();
     getKategori();
-    tesTauri();
+    invokeBarang();
   }, []);
 
   const formatter = new Intl.NumberFormat("id-ID", {
