@@ -1,4 +1,5 @@
 /* import { useState } from "react"; */
+import { invoke } from "@tauri-apps/api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
@@ -23,7 +24,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault;
-    await fetch("http://localhost:3000/login", {
+    /* await fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -33,7 +34,6 @@ const Login = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.token) {
-          /* localStorage.setItem("token", data.token); */
           cookie.set("token", data.token, {
             path: "/",
             maxAge: 60 * 60 * 24,
@@ -45,7 +45,28 @@ const Login = () => {
           setAlert("Username atau Password anda salah");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err)); */
+    console.log(formData.username);
+    invoke("login", {
+      username: formData.username,
+      password: formData.password,
+    })
+      .then((res) => {
+        console.log(res);
+        invoke("token", { username: formData.username }).then((res) => {
+          res = JSON.parse(res);
+          console.log(res);
+          cookie.set("token", res.token, {
+            path: "/",
+            maxAge: 60 * 60 * 24,
+          });
+          navigate("/kasir/ecer");
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        setAlert("Username atau Password anda salah");
+      });
   };
 
   return (

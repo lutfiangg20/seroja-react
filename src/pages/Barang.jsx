@@ -33,7 +33,7 @@ const Barang = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await fetch("http://localhost:3000/barang", {
+    /*  await fetch("http://localhost:3000/barang", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,7 +50,27 @@ const Barang = () => {
           harga: 0,
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err)); */
+
+    invoke("add_barang", {
+      nama_barang: formData.nama_barang,
+      kategori: formData.kategori,
+      stok: formData.stok,
+      harga: formData.harga,
+    })
+      .then((res) => {
+        console.log(res);
+        invokeBarang();
+        setFormData({
+          nama_barang: "",
+          kategori: "",
+          stok: 0,
+          harga: 0,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleDelete = async (nama_barang) => {
@@ -66,6 +86,17 @@ const Barang = () => {
     }).then(() => {
       getBarang();
     });
+
+    invoke("delete_barang", {
+      nama_barang: nama_barang,
+    })
+      .then((res) => {
+        console.log(res);
+        invokeBarang();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const getBarang = async () => {
@@ -98,14 +129,23 @@ const Barang = () => {
 
   const invokeBarang = async () => {
     invoke("get_barang", {}).then((res) => {
-      console.log("invoke : ", res);
+      console.log(JSON.parse(res));
+      setBarang(JSON.parse(res));
+    });
+  };
+
+  const invokeKategori = async () => {
+    invoke("get_kategori", {}).then((res) => {
+      console.log(JSON.parse(res));
+      setKategori(JSON.parse(res));
     });
   };
 
   useEffect(() => {
-    getBarang();
-    getKategori();
+    /* getBarang();
+    getKategori(); */
     invokeBarang();
+    invokeKategori();
   }, []);
 
   const formatter = new Intl.NumberFormat("id-ID", {
@@ -216,7 +256,7 @@ const Barang = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    await fetch(`http://localhost:3000/barang/${editBarang.nama_barang}`, {
+    /* await fetch(`http://localhost:3000/barang/${editBarang.nama_barang}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -226,6 +266,19 @@ const Barang = () => {
     })
       .then(() => {
         getBarang();
+        handleClose();
+      })
+      .catch((err) => console.log(err)); */
+
+    invoke("update_barang", {
+      nama_barang: editBarang.nama_barang,
+      kategori: editBarang.kategori,
+      stok: editBarang.stok,
+      harga: editBarang.harga,
+    })
+      .then((res) => {
+        console.log(res);
+        invokeBarang();
         handleClose();
       })
       .catch((err) => console.log(err));
