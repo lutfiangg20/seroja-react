@@ -7,7 +7,7 @@ import {
 } from "material-react-table";
 import { GridDeleteIcon } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
-import Cookies from "universal-cookie";
+/* import Cookies from "universal-cookie"; */
 import { Box, Modal } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { invoke } from "@tauri-apps/api";
@@ -22,8 +22,8 @@ const Barang = () => {
     harga: "",
   });
   const [open, setOpen] = useState(false);
-  let cookie = new Cookies();
-  const token = cookie.get("token");
+  /* let cookie = new Cookies(); */
+  /*  const token = cookie.get("token"); */
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -60,7 +60,7 @@ const Barang = () => {
     })
       .then((res) => {
         console.log(res);
-        invokeBarang();
+        getBarang();
         setFormData({
           nama_barang: "",
           kategori: "",
@@ -77,7 +77,7 @@ const Barang = () => {
     /*  const newBarang = barang.filter((item) => item.id !== id);
     setBarang(newBarang); */
 
-    await fetch(`http://localhost:3000/barang/${nama_barang}`, {
+    /* await fetch(`http://localhost:3000/barang/${nama_barang}`, {
       method: "delete",
       headers: {
         "Content-Type": "application/json",
@@ -85,14 +85,14 @@ const Barang = () => {
       },
     }).then(() => {
       getBarang();
-    });
+    }); */
 
     invoke("delete_barang", {
       nama_barang: nama_barang,
     })
       .then((res) => {
         console.log(res);
-        invokeBarang();
+        getBarang();
       })
       .catch((err) => {
         console.log(err);
@@ -100,7 +100,7 @@ const Barang = () => {
   };
 
   const getBarang = async () => {
-    await fetch("http://localhost:3000/barang", {
+    /*  await fetch("http://localhost:3000/barang", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -110,11 +110,15 @@ const Barang = () => {
       .then((res) => res.json())
       .then((data) => {
         setBarang(data);
-      });
+      }); */
+    invoke("get_barang", {}).then((res) => {
+      console.log(JSON.parse(res));
+      setBarang(JSON.parse(res));
+    });
   };
 
   const getKategori = async () => {
-    await fetch("http://localhost:3000/kategori", {
+    /* await fetch("http://localhost:3000/kategori", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -124,17 +128,7 @@ const Barang = () => {
       .then((res) => res.json())
       .then((data) => {
         setKategori(data);
-      });
-  };
-
-  const invokeBarang = async () => {
-    invoke("get_barang", {}).then((res) => {
-      console.log(JSON.parse(res));
-      setBarang(JSON.parse(res));
-    });
-  };
-
-  const invokeKategori = async () => {
+      }); */
     invoke("get_kategori", {}).then((res) => {
       console.log(JSON.parse(res));
       setKategori(JSON.parse(res));
@@ -142,10 +136,8 @@ const Barang = () => {
   };
 
   useEffect(() => {
-    /* getBarang();
-    getKategori(); */
-    invokeBarang();
-    invokeKategori();
+    getBarang();
+    getKategori();
   }, []);
 
   const formatter = new Intl.NumberFormat("id-ID", {
@@ -278,7 +270,7 @@ const Barang = () => {
     })
       .then((res) => {
         console.log(res);
-        invokeBarang();
+        getBarang();
         handleClose();
       })
       .catch((err) => console.log(err));

@@ -6,15 +6,15 @@ import {
   useMaterialReactTable,
 } from "material-react-table";
 import { GridDeleteIcon } from "@mui/x-data-grid";
-import Cookies from "universal-cookie";
+/* import Cookies from "universal-cookie"; */
 import { Tooltip } from "@mui/material";
 import { invoke } from "@tauri-apps/api";
 
 const Kategori = () => {
   const [kategori, setKategori] = useState([]);
   const [addkategori, setAddKategori] = useState("");
-  let cookie = new Cookies();
-  const token = cookie.get("token");
+  /* let cookie = new Cookies();
+  const token = cookie.get("token"); */
 
   const getKategori = async () => {
     /* await fetch("http://localhost:3000/kategori", {

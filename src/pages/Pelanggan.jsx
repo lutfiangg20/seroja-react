@@ -6,17 +6,18 @@ import Layout from "../components/Layout";
 import TambahPelanggan from "../components/TambahPelanggan";
 import { useEffect, useMemo, useState } from "react";
 import { GridDeleteIcon } from "@mui/x-data-grid";
-import Cookies from "universal-cookie";
+/* import Cookies from "universal-cookie"; */
 import { Tooltip } from "@mui/material";
+import { invoke } from "@tauri-apps/api";
 
 const Pelanggan = () => {
   const [pelanggan, setPelanggan] = useState([]);
   const [addPelanggan, setAddPelanggan] = useState("");
-  let cookie = new Cookies();
-  const token = cookie.get("token");
+  /*   let cookie = new Cookies();
+  const token = cookie.get("token"); */
 
   const getPelanggan = async () => {
-    await fetch("http://localhost:3000/pelanggan", {
+    /*  await fetch("http://localhost:3000/pelanggan", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -27,7 +28,11 @@ const Pelanggan = () => {
       .then((data) => {
         console.log(data);
         setPelanggan(data);
-      });
+      }); */
+    invoke("get_pelanggan", {}).then((res) => {
+      res = JSON.parse(res);
+      setPelanggan(res);
+    });
   };
 
   useEffect(() => {
@@ -36,7 +41,7 @@ const Pelanggan = () => {
 
   const handleTambah = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3000/pelanggan", {
+    /* fetch("http://localhost:3000/pelanggan", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,11 +53,15 @@ const Pelanggan = () => {
         getPelanggan();
         setAddPelanggan("");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err)); */
+    invoke("add_pelanggan", { nama: addPelanggan }).then(() => {
+      getPelanggan();
+      setAddPelanggan("");
+    });
   };
 
   const handleDelete = (nama) => {
-    fetch(`http://localhost:3000/pelanggan/${nama}`, {
+    /* fetch(`http://localhost:3000/pelanggan/${nama}`, {
       method: "delete",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +71,10 @@ const Pelanggan = () => {
       .then(() => {
         getPelanggan();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err)); */
+    invoke("delete_pelanggan", { nama: nama }).then(() => {
+      getPelanggan();
+    });
   };
 
   const columns = useMemo(

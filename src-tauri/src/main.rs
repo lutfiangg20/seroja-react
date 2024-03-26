@@ -26,6 +26,10 @@ mod auth;
 use auth::{login,token};
 mod kategori;
 use kategori::{get_kategori,post_kategori,delete_kategori};
+mod pelanggan;
+use pelanggan::{get_pelanggan,post_pelanggan,delete_pelanggan};
+mod laporan;
+use laporan::get_laporan;
 
 
 fn main() { 
@@ -38,6 +42,10 @@ fn main() {
     let get_kategori=get_kategori::get_kategori;
     let add_kategori=post_kategori::add_kategori;
     let delete_kategori=delete_kategori::delete_kategori;
+    let get_pelanggan=get_pelanggan::get_pelanggan;
+    let add_pelanggan=post_pelanggan::add_pelanggan;
+    let delete_pelanggan=delete_pelanggan::delete_pelanggan;
+    let get_laporan=get_laporan::get_laporan;
 
     tauri::Builder::default()
     // .setup(|app|{
@@ -47,7 +55,21 @@ fn main() {
     //     .spawn();
     // Ok(())
     // })
-    .invoke_handler(tauri::generate_handler![login,token,get_barang,get_kategori,add_barang,add_kategori,delete_kategori,delete_barang,update_barang])
+    .invoke_handler(tauri::generate_handler![
+        login,
+        token,
+        get_barang,
+        get_kategori,
+        add_barang,
+        add_kategori,
+        delete_kategori,
+        delete_barang,
+        update_barang,
+        get_pelanggan,
+        add_pelanggan,
+        delete_pelanggan,
+        get_laporan
+        ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
