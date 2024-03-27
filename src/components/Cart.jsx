@@ -14,6 +14,7 @@ import updateStok from "../utility/updateStok";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import { invoke } from "@tauri-apps/api";
+import moment from "moment";
 
 const Cart = (props) => {
   const [cart, setCart] = useState([]);
@@ -38,6 +39,7 @@ const Cart = (props) => {
   const [alert, setAlert] = useState(false);
 
   const date = new Date();
+
   /*   const cookie = new Cookies();
   const token = cookie.get("token"); */
   console.log(date);
@@ -125,11 +127,15 @@ const Cart = (props) => {
         setAlert(true);
         navigate("/invoice");
       }); */
+      /* let date = new Date(); */
+      /* let created_at = date.toLocaleString(); */
+      let created_at = moment().format("DD-MM-YYYY HH:mm:ss");
 
       invoke("add_laporan", {
         pelanggan: invoice.pelanggan,
-        cart: JSON.stringify(invoice.cart),
-        totalHarga: invoice.totalHarga,
+        cart: invoice.cart,
+        total_harga: invoice.totalHarga,
+        created_at: created_at,
       }).then(() => {
         console.log("transaksi berhasil");
         setCart([]);
