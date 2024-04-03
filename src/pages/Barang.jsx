@@ -176,7 +176,7 @@ const Barang = () => {
               <button
                 className="btn btn-danger "
                 onClick={() => {
-                  handleDelete(cell.row.original.nama_barang);
+                  handleDelete(cell.row.original._id);
                 }}
               >
                 <Tooltip title="Hapus" placement="top">
@@ -189,6 +189,7 @@ const Barang = () => {
                 className="btn btn-warning "
                 onClick={() => {
                   setEditBarang({
+                    id: cell.row.original._id,
                     nama_barang: cell.row.original.nama_barang,
                     kategori: cell.row.original.kategori,
                     stok: cell.row.original.stok,
@@ -237,6 +238,7 @@ const Barang = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [editBarang, setEditBarang] = useState({
+    _id: "",
     nama_barang: "",
     kategori: "",
     stok: 0,
@@ -250,7 +252,7 @@ const Barang = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    await fetch(`http://localhost:3000/api/barang/${editBarang.nama_barang}`, {
+    await fetch(`http://localhost:3000/api/barang/${editBarang.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

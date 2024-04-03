@@ -3,7 +3,7 @@ import Cookies from "universal-cookie";
 
 const Logout = () => {
   const dataLogout = () => {
-    fetch("http://localhost:3000/logout", {
+    fetch("http://localhost:3000/api/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -14,7 +14,7 @@ const Logout = () => {
   let cookie = new Cookies();
   cookie.remove("token", { path: "/" });
   localStorage.removeItem("token");
-  window.location.href = "/login";
+  window.location.href = "/";
 
   useEffect(() => {
     dataLogout();
