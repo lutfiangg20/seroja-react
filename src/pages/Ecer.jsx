@@ -3,7 +3,7 @@ import BarangJual from "../components/BarangJual";
 import Cart from "../components/Cart";
 import Layout from "../components/Layout";
 import PembelianButtons from "../components/PembelianButtons";
-/* import Cookies from "universal-cookie"; */
+import Cookies from "universal-cookie";
 import { invoke } from "@tauri-apps/api";
 
 /* import { useSelector } from "react-redux"; */
@@ -11,11 +11,11 @@ import { invoke } from "@tauri-apps/api";
 const Ecer = () => {
   /* const token = useSelector((state) => state.auth.token); */
   /* const token = localStorage.getItem("token"); */
-  /*  const cookie = new Cookies();
-  const token = cookie.get("token"); */
+  const cookie = new Cookies();
+  const token = cookie.get("token");
   const [barang, setBarang] = useState([]);
   const getData = async () => {
-    /* await fetch("http://localhost:3000/barang", {
+    await fetch("http://localhost:3000/api/barang", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -28,12 +28,12 @@ const Ecer = () => {
       })
       .catch((err) => {
         console.log(err);
-      }); */
+      });
 
-    invoke("get_barang", {}).then((res) => {
+    /* invoke("get_barang", {}).then((res) => {
       res = JSON.parse(res);
       setBarang(res);
-    });
+    }); */
   };
 
   useEffect(() => {

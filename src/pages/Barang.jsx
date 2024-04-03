@@ -7,7 +7,7 @@ import {
 } from "material-react-table";
 import { GridDeleteIcon } from "@mui/x-data-grid";
 import EditIcon from "@mui/icons-material/Edit";
-/* import Cookies from "universal-cookie"; */
+import Cookies from "universal-cookie";
 import { Box, Modal } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { invoke } from "@tauri-apps/api";
@@ -22,8 +22,8 @@ const Barang = () => {
     harga: "",
   });
   const [open, setOpen] = useState(false);
-  /* let cookie = new Cookies(); */
-  /*  const token = cookie.get("token"); */
+  let cookie = new Cookies();
+  const token = cookie.get("token");
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -33,7 +33,7 @@ const Barang = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    /*  await fetch("http://localhost:3000/barang", {
+    await fetch("http://localhost:3000/api/barang", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,9 +50,9 @@ const Barang = () => {
           harga: 0,
         });
       })
-      .catch((err) => console.log(err)); */
+      .catch((err) => console.log(err));
 
-    invoke("add_barang", {
+    /*  invoke("add_barang", {
       nama_barang: formData.nama_barang,
       kategori: formData.kategori,
       stok: formData.stok,
@@ -70,14 +70,14 @@ const Barang = () => {
       })
       .catch((err) => {
         console.log(err);
-      });
+      }); */
   };
 
-  const handleDelete = async (nama_barang) => {
-    /*  const newBarang = barang.filter((item) => item.id !== id);
-    setBarang(newBarang); */
+  const handleDelete = async (id) => {
+    const newBarang = barang.filter((item) => item.id !== id);
+    setBarang(newBarang);
 
-    /* await fetch(`http://localhost:3000/barang/${nama_barang}`, {
+    await fetch(`http://localhost:3000/api/barang/${id}`, {
       method: "delete",
       headers: {
         "Content-Type": "application/json",
@@ -85,9 +85,9 @@ const Barang = () => {
       },
     }).then(() => {
       getBarang();
-    }); */
+    });
 
-    invoke("delete_barang", {
+    /*  invoke("delete_barang", {
       nama_barang: nama_barang,
     })
       .then((res) => {
@@ -96,11 +96,11 @@ const Barang = () => {
       })
       .catch((err) => {
         console.log(err);
-      });
+      }); */
   };
 
   const getBarang = async () => {
-    /*  await fetch("http://localhost:3000/barang", {
+    await fetch("http://localhost:3000/api/barang", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -110,15 +110,15 @@ const Barang = () => {
       .then((res) => res.json())
       .then((data) => {
         setBarang(data);
-      }); */
-    invoke("get_barang", {}).then((res) => {
+      });
+    /* invoke("get_barang", {}).then((res) => {
       console.log(JSON.parse(res));
       setBarang(JSON.parse(res));
-    });
+    }); */
   };
 
   const getKategori = async () => {
-    /* await fetch("http://localhost:3000/kategori", {
+    await fetch("http://localhost:3000/api/kategori", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -128,11 +128,11 @@ const Barang = () => {
       .then((res) => res.json())
       .then((data) => {
         setKategori(data);
-      }); */
-    invoke("get_kategori", {}).then((res) => {
+      });
+    /*  invoke("get_kategori", {}).then((res) => {
       console.log(JSON.parse(res));
       setKategori(JSON.parse(res));
-    });
+    }); */
   };
 
   useEffect(() => {
@@ -175,7 +175,9 @@ const Barang = () => {
             <div className="">
               <button
                 className="btn btn-danger "
-                onClick={() => handleDelete(cell.row.original.nama_barang)}
+                onClick={() => {
+                  handleDelete(cell.row.original.nama_barang);
+                }}
               >
                 <Tooltip title="Hapus" placement="top">
                   <GridDeleteIcon />
@@ -248,7 +250,7 @@ const Barang = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    /* await fetch(`http://localhost:3000/barang/${editBarang.nama_barang}`, {
+    await fetch(`http://localhost:3000/api/barang/${editBarang.nama_barang}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -260,9 +262,9 @@ const Barang = () => {
         getBarang();
         handleClose();
       })
-      .catch((err) => console.log(err)); */
+      .catch((err) => console.log(err));
 
-    invoke("update_barang", {
+    /* invoke("update_barang", {
       nama_barang: editBarang.nama_barang,
       kategori: editBarang.kategori,
       stok: editBarang.stok,
@@ -273,7 +275,7 @@ const Barang = () => {
         getBarang();
         handleClose();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err)); */
   };
 
   return (

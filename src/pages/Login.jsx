@@ -24,7 +24,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault;
-    /* await fetch("http://localhost:3000/login", {
+    await fetch("http://localhost:3000/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,9 +45,9 @@ const Login = () => {
           setAlert("Username atau Password anda salah");
         }
       })
-      .catch((err) => console.log(err)); */
+      .catch((err) => console.log(err));
     console.log(formData.username);
-    invoke("login", {
+    /* invoke("login", {
       username: formData.username,
       password: formData.password,
     })
@@ -66,7 +66,7 @@ const Login = () => {
       .catch((err) => {
         console.log(err);
         setAlert("Username atau Password anda salah");
-      });
+      }); */
   };
 
   return (

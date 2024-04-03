@@ -6,18 +6,18 @@ import {
   useMaterialReactTable,
 } from "material-react-table";
 import { GridDeleteIcon } from "@mui/x-data-grid";
-/* import Cookies from "universal-cookie"; */
+import Cookies from "universal-cookie";
 import { Tooltip } from "@mui/material";
 import { invoke } from "@tauri-apps/api";
 
 const Kategori = () => {
   const [kategori, setKategori] = useState([]);
   const [addkategori, setAddKategori] = useState("");
-  /* let cookie = new Cookies();
-  const token = cookie.get("token"); */
+  let cookie = new Cookies();
+  const token = cookie.get("token");
 
   const getKategori = async () => {
-    /* await fetch("http://localhost:3000/kategori", {
+    await fetch("http://localhost:3000/api/kategori", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -27,11 +27,11 @@ const Kategori = () => {
       .then((res) => res.json())
       .then((data) => {
         setKategori(data);
-      }); */
-    invoke("get_kategori", {}).then((res) => {
+      });
+    /* invoke("get_kategori", {}).then((res) => {
       res = JSON.parse(res);
       setKategori(res);
-    });
+    }); */
   };
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const Kategori = () => {
 
   const handleTambah = async (e) => {
     e.preventDefault();
-    /* fetch("http://localhost:3000/kategori", {
+    fetch("http://localhost:3000/api/kategori", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -52,15 +52,15 @@ const Kategori = () => {
         getKategori();
         setAddKategori("");
       })
-      .catch((err) => console.log(err)); */
-    invoke("add_kategori", { nama_kategori: addkategori }).then(() => {
+      .catch((err) => console.log(err));
+    /* invoke("add_kategori", { nama_kategori: addkategori }).then(() => {
       getKategori();
       setAddKategori("");
-    });
+    }); */
   };
 
   const handleDelete = async (nama) => {
-    /*  fetch(`http://localhost:3000/kategori/${nama}`, {
+    fetch(`http://localhost:3000/api/kategori/${nama}`, {
       method: "delete",
       headers: {
         "Content-Type": "application/json",
@@ -70,11 +70,11 @@ const Kategori = () => {
       .then(() => {
         getKategori();
       })
-      .catch((err) => console.log(err)); */
-    invoke("delete_kategori", { nama_kategori: nama }).then((res) => {
+      .catch((err) => console.log(err));
+    /* invoke("delete_kategori", { nama_kategori: nama }).then((res) => {
       console.log(res);
       getKategori();
-    });
+    }); */
   };
 
   const columns = useMemo(

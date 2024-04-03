@@ -5,17 +5,17 @@ import {
 import ExportToExcelButton from "../components/ExportToExcel";
 import LaporanButtons from "../components/LaporanButtons";
 import Layout from "../components/Layout";
-/* import Cookies from "universal-cookie"; */
+import Cookies from "universal-cookie";
 import { useEffect, useMemo, useState } from "react";
 import moment from "moment";
 import { invoke } from "@tauri-apps/api";
 
 const AllPayment = () => {
   const [laporan, setLaporan] = useState([]);
-  /* let cookie = new Cookies();
-  const token = cookie.get("token"); */
+  let cookie = new Cookies();
+  const token = cookie.get("token");
   const getData = async () => {
-    /*  await fetch("http://localhost:3000/laporan", {
+    await fetch("http://localhost:3000/api/laporan", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -30,9 +30,9 @@ const AllPayment = () => {
             setLaporan((laporan) => [...laporan, cart]);
           });
         });
-      }); */
+      });
 
-    invoke("get_laporan", {}).then((res) => {
+    /* invoke("get_laporan", {}).then((res) => {
       res = JSON.parse(res);
       setLaporan(res);
       res.map((item) => {
@@ -40,7 +40,7 @@ const AllPayment = () => {
           setLaporan((laporan) => [...laporan, cart]);
         });
       });
-    });
+    }); */
   };
 
   useEffect(() => {

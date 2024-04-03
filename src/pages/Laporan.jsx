@@ -6,17 +6,17 @@ import {
 } from "material-react-table";
 
 import ExportToExcelButton from "../components/ExportToExcel";
-/* import Cookies from "universal-cookie"; */
+import Cookies from "universal-cookie";
 import LaporanButtons from "../components/LaporanButtons";
 import { invoke } from "@tauri-apps/api";
 
 const Laporan = () => {
   const [laporan, setLaporan] = useState([]);
-  /*   let cookie = new Cookies();
-  const token = cookie.get("token"); */
+  let cookie = new Cookies();
+  const token = cookie.get("token");
 
   const getData = async () => {
-    /*  await fetch("http://localhost:3000/laporan", {
+    await fetch("http://localhost:3000/api/laporan", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -27,11 +27,11 @@ const Laporan = () => {
       .then((data) => {
         setLaporan(data);
         console.log(data);
-      }); */
-    invoke("get_laporan", {}).then((res) => {
+      });
+    /* invoke("get_laporan", {}).then((res) => {
       res = JSON.parse(res);
       setLaporan(res);
-    });
+    }); */
   };
 
   /* const formatDate = (dateString) => {
