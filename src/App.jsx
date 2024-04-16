@@ -24,9 +24,9 @@ import { useEffect } from "react";
 import { invoke } from "@tauri-apps/api";
 
 function App() {
-  useEffect(() => {
+  /* useEffect(() => {
     invoke("node_server");
-  }, []);
+  }, []); */
 
   return (
     <>
