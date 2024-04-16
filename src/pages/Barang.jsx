@@ -176,7 +176,7 @@ const Barang = () => {
               <button
                 className="btn btn-danger "
                 onClick={() => {
-                  handleDelete(cell.row.original._id);
+                  handleDelete(cell.row.original.id);
                 }}
               >
                 <Tooltip title="Hapus" placement="top">
@@ -189,7 +189,7 @@ const Barang = () => {
                 className="btn btn-warning "
                 onClick={() => {
                   setEditBarang({
-                    id: cell.row.original._id,
+                    id: cell.row.original.id,
                     nama_barang: cell.row.original.nama_barang,
                     kategori: cell.row.original.kategori,
                     stok: cell.row.original.stok,

@@ -25,24 +25,22 @@ const Cart = (props) => {
     pelanggan: "ecer",
     cart: [
       {
-        id: "",
         nama_barang: "",
         harga: "",
         stok: 0,
         total_harga: "",
-        created_at: "",
         pelanggan: "ecer",
       },
     ],
     totalHarga: 0,
   });
+  console.log(props.barang);
   const [alert, setAlert] = useState(false);
 
   const date = new Date();
 
-  /*   const cookie = new Cookies();
-  const token = cookie.get("token"); */
-  console.log(date);
+  const cookie = new Cookies();
+  const token = cookie.get("token");
 
   const findId = (id) => {
     return cart.find((item) => item.id == id);
@@ -51,17 +49,15 @@ const Cart = (props) => {
   useEffect(() => {
     if (!findId(props.pilih)) {
       props.barang.map((item) =>
-        item._id === props.pilih
+        item.id === props.pilih
           ? setCart([
               ...cart,
               {
-                id: item._id,
                 nama_barang: item.nama_barang,
                 harga: item.harga,
                 stok: 1,
                 total_harga: 0,
                 jenis: "ecer",
-                created_at: date,
               },
             ])
           : null
@@ -99,8 +95,8 @@ const Cart = (props) => {
     setCart(newCart);
   };
 
-  const handleDelete = (nama) => {
-    const newCart = cart.filter((item) => item.nama_barang !== nama);
+  const handleDelete = (id) => {
+    const newCart = cart.filter((item) => item.id !== id);
     setCart(newCart);
   };
 
@@ -110,7 +106,7 @@ const Cart = (props) => {
     localStorage.setItem("invoice", JSON.stringify(invoice));
 
     if (bayar >= totalHarga) {
-      /* fetch("http://localhost:3000/laporan", {
+      await fetch("http://localhost:3000/api/laporan", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -119,19 +115,19 @@ const Cart = (props) => {
         body: JSON.stringify(invoice),
       }).then(() => {
         console.log("transaksi berhasil");
-        updateStok(cart);
+        /* updateStok(cart); */
         setCart([]);
         setBayar(0);
         console.log("bayar", bayar);
         props.getData();
         setAlert(true);
         navigate("/invoice");
-      }); */
+      });
       /* let date = new Date(); */
       /* let created_at = date.toLocaleString(); */
-      let created_at = moment().format("DD-MM-YYYY HH:mm:ss");
+      /* let created_at = moment().format("DD-MM-YYYY HH:mm:ss"); */
 
-      invoke("add_laporan", {
+      /* invoke("add_laporan", {
         pelanggan: invoice.pelanggan,
         cart: invoice.cart,
         total_harga: invoice.totalHarga,
@@ -144,7 +140,7 @@ const Cart = (props) => {
         props.getData();
         setAlert(true);
         navigate("/invoice");
-      });
+      }); */
     }
     if (bayar < totalHarga) {
       console.log("duit mu kurang");
@@ -217,7 +213,7 @@ const Cart = (props) => {
                   <TableCell align="center">
                     <button
                       className="btn btn-danger"
-                      onClick={() => handleDelete(row.nama_barang)}
+                      onClick={() => handleDelete(row.id)}
                       type="button"
                     >
                       <i className="fa-solid fa-trash-can" />

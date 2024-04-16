@@ -14,7 +14,6 @@ const Ecer = () => {
   const cookie = new Cookies();
   const token = cookie.get("token");
   const [barang, setBarang] = useState([]);
-  console.log(token);
   const getData = async () => {
     await fetch("http://localhost:3000/api/barang", {
       method: "GET",
@@ -25,7 +24,6 @@ const Ecer = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setBarang(data);
       })
       .catch((err) => {

@@ -85,7 +85,7 @@ const AllPayment = () => {
         size: 50,
       },
       {
-        accessorKey: "created_at", //access nested data with dot notation
+        accessorKey: "createdAt", //access nested data with dot notation
         header: "Tanggal",
 
         Cell: ({ renderedCellValue }) => (

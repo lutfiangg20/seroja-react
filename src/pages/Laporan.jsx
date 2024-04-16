@@ -9,6 +9,7 @@ import ExportToExcelButton from "../components/ExportToExcel";
 import Cookies from "universal-cookie";
 import LaporanButtons from "../components/LaporanButtons";
 import { invoke } from "@tauri-apps/api";
+import moment from "moment";
 
 const Laporan = () => {
   const [laporan, setLaporan] = useState([]);
@@ -58,14 +59,14 @@ const Laporan = () => {
         size: 50,
       },
       {
-        accessorKey: "created_at", //access nested data with dot notation
+        accessorKey: "createdAt", //access nested data with dot notation
         header: "Tanggal",
 
-        /* Cell: ({ renderedCellValue }) => (
+        Cell: ({ renderedCellValue }) => (
           <span>
             {moment(renderedCellValue).format("DD-MM-YYYY, HH:mm:ss ")}
           </span>
-        ), */
+        ),
         size: 50,
       },
       /* {

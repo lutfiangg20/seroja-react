@@ -54,7 +54,7 @@ const BarangJual = (props) => {
     data: props.barang, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
     muiTableBodyCellProps: ({ cell }) => ({
       onClick: () => {
-        handleClick(cell.row.original._id);
+        handleClick(cell.row.original.id);
       },
       sx: {
         textTransform: "capitalize",
