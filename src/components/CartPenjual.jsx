@@ -39,7 +39,6 @@ const CartPenjual = (props) => {
 
   const cookie = new Cookies();
   const token = cookie.get("token");
-  const date = new Date();
 
   const findId = (id) => {
     return cart.find((item) => item.id == id);

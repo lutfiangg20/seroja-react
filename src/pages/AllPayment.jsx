@@ -73,16 +73,25 @@ const AllPayment = () => {
         accessorKey: "harga",
         header: "Harga",
         size: 50,
+        Cell: ({ renderedCellValue }) => (
+          <span>{formatter.format(renderedCellValue)}</span>
+        ),
       },
       {
         accessorKey: "diskon",
         header: "Diskon",
         size: 50,
+        Cell: ({ renderedCellValue }) => (
+          <span>{formatter.format(renderedCellValue)}</span>
+        ),
       },
       {
         accessorKey: "total_harga",
         header: "Total Harga",
         size: 50,
+        Cell: ({ renderedCellValue }) => (
+          <span>{formatter.format(renderedCellValue)}</span>
+        ),
       },
       {
         accessorKey: "createdAt", //access nested data with dot notation
