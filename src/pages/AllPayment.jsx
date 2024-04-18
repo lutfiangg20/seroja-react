@@ -47,10 +47,6 @@ const AllPayment = () => {
     getData();
   }, []);
 
-  useEffect(() => {
-    setTotalPemasukan(laporan.reduce((a, b) => a + b.total_harga, 0));
-  }, [laporan]);
-
   const columns = useMemo(
     () => [
       {
@@ -104,21 +100,15 @@ const AllPayment = () => {
         ),
         size: 50,
       },
-      /* {
-        accessorKey: "total_bayar",
-        header: "Total Bayar",
-        size: 50,
-      }, */
-      /*  {
-        accessorKey: "jenis",
-        header: "Jenis Transaksi",
-        size: 50,
-      }, */
     ],
     []
   );
 
-  const [totalPemasukan, setTotalPemasukan] = useState(0);
+  const handlePemasukan = useMemo(() => {
+    const totalPoints = laporan.reduce((a, b) => a + b.total_harga, 0);
+    return totalPoints;
+  }, [laporan]);
+
   const formatter = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR", // You can change this to your desired currency code
@@ -140,7 +130,7 @@ const AllPayment = () => {
       <div className="card">
         <div className="card-body">
           <div className="d-flex justify-content-between mb-3">
-            <h4>Total Pemasukan : {formatter.format(totalPemasukan)}</h4>
+            <h4>Total Pemasukan : {formatter.format(handlePemasukan)}</h4>
             <ExportToExcelButton data={laporan} fileName="Laporan" />
           </div>
           <MaterialReactTable table={table} />

@@ -20,8 +20,9 @@ import Penjual from "./pages/Penjual.jsx";
 import Pelanggan from "./pages/Pelanggan.jsx";
 import Invoice from "./pages/Invoice.jsx";
 import AllPayment from "./pages/AllPayment.jsx";
-import { useEffect } from "react";
-import { invoke } from "@tauri-apps/api";
+// import { useEffect } from "react";
+// import { invoke } from "@tauri-apps/api";
+import Pengeluaran from "./pages/Pengeluaran.jsx";
 
 function App() {
   /* useEffect(() => {
@@ -83,6 +84,15 @@ function App() {
             element={
               <RequireAuth>
                 <AllPayment />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/pengeluaran"
+            element={
+              <RequireAuth>
+                <Pengeluaran />
               </RequireAuth>
             }
           />

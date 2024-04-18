@@ -25,6 +25,18 @@ const LaporanButtons = (props) => {
           <i className="fa-solid fa-circle-plus" /> Semua Penjualan
         </button>
       </NavLink>
+      <NavLink to="/pengeluaran">
+        <button
+          type="button"
+          className={`btn ${
+            location.pathname === "/pengeluaran"
+              ? "btn-success"
+              : "btn-secondary"
+          } mx-1`}
+        >
+          <i className="fa-solid fa-circle-plus" /> Laporan Pengeluaran
+        </button>
+      </NavLink>
       {/*  <button type="button" className="btn btn-danger mx-1">
         <i className="fa-solid fa-circle-plus" /> Transaksi Bengkel
       </button> */}
