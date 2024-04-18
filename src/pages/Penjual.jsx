@@ -4,7 +4,7 @@ import Layout from "../components/Layout";
 import PembelianButtons from "../components/PembelianButtons";
 import CartPenjual from "../components/CartPenjual";
 import Cookies from "universal-cookie";
-import { invoke } from "@tauri-apps/api";
+/* import { invoke } from "@tauri-apps/api"; */
 
 const Penjual = () => {
   const [barang, setBarang] = useState([]);

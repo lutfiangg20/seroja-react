@@ -104,6 +104,7 @@ const Cart = (props) => {
   };
 
   const navigate = useNavigate();
+
   const handleBayar = async (e) => {
     e.preventDefault();
     localStorage.setItem("invoice", JSON.stringify(invoice));

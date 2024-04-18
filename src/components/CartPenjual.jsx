@@ -30,13 +30,10 @@ const CartPenjual = (props) => {
         harga: "",
         stok: 0,
         total_harga: "",
-        created_at: "",
         pelanggan: "",
       },
     ],
     totalHarga: 0,
-    pelanggan_id: "",
-    created_at: "",
   });
   const [alert, setAlert] = useState(false);
 
@@ -49,7 +46,7 @@ const CartPenjual = (props) => {
   };
 
   const getPelanggan = async () => {
-    await fetch("http://localhost:3000/pelanggan", {
+    await fetch("http://localhost:3000/api/pelanggan", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -69,18 +66,18 @@ const CartPenjual = (props) => {
   useEffect(() => {
     if (!findId(props.pilih)) {
       props.barang.map((item) =>
-        item._id === props.pilih
+        item.id === props.pilih
           ? setCart([
               ...cart,
               {
-                id: item._id,
+                id: item.id,
+                pelanggan: pilihPelanggan,
                 nama_barang: item.nama_barang,
                 harga: item.harga,
                 stok: 1,
                 diskon: 0,
                 total_harga: 0,
                 jenis: "penjual",
-                created_at: date,
               },
             ])
           : null
@@ -89,13 +86,23 @@ const CartPenjual = (props) => {
   }, [props.pilih]);
 
   useEffect(() => {
-    setTotalHarga(
+    /* setTotalHarga(
       cart.reduce((a, b) => {
         return a + b.total_harga;
       }, 0)
-    );
+    ); */
+    const newTotal = cart.reduce((a, b) => {
+      return a + b.total_harga;
+    }, 0);
 
-    setInvoice({ ...invoice, cart: cart });
+    setTotalHarga(newTotal);
+
+    /* setInvoice({ ...invoice, cart: cart }); */
+    setInvoice({
+      pelanggan: pilihPelanggan,
+      cart: cart,
+      totalHarga: newTotal,
+    });
   }, [cart]);
 
   const jumlah = (e, nama, harga, diskon) => {
@@ -119,7 +126,7 @@ const CartPenjual = (props) => {
       item.nama_barang === nama
         ? {
             ...item,
-            diskon: e.target.value,
+            diskon: Number(e.target.value),
             total_harga: harga * jumlah - e.target.value,
           }
         : item
@@ -127,20 +134,25 @@ const CartPenjual = (props) => {
     setCart(newCart);
   };
 
-  const handleDelete = (nama) => {
-    const newCart = cart.filter((item) => item.nama_barang !== nama);
+  const handleDelete = (id) => {
+    const newCart = cart.filter((item) => item.id !== id);
     setCart(newCart);
   };
 
   const handlePilihPelanggan = (e) => {
     setPilihPelanggan(e.target.value);
     setInvoice({ ...invoice, pelanggan: e.target.value });
+    cart.map((item) => (item.pelanggan = e.target.value));
+    console.log(cart);
   };
 
   const navigate = useNavigate();
+
   const handleBayar = (e) => {
     e.preventDefault();
-    invoice.created_at = date;
+    localStorage.setItem("invoice", JSON.stringify(invoice));
+
+    /* invoice.created_at = date;
     const newCart = cart.map((item) => ({
       ...item,
       pelanggan: pilihPelanggan,
@@ -148,19 +160,19 @@ const CartPenjual = (props) => {
     setCart(newCart);
     invoice.cart = cart;
     localStorage.setItem("invoice", JSON.stringify(invoice));
-    console.log(invoice);
+    console.log(invoice); */
 
-    /* if (bayar >= totalHarga && invoice.pelanggan !== "" > 0) {
-      fetch("http://localhost:3000/laporan", {
+    if (bayar >= totalHarga && invoice.pelanggan !== "" > 0) {
+      fetch("http://localhost:3000/api/laporan", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: token,
         },
         body: JSON.stringify(invoice),
-      }).then(() => {
+      }).then(async () => {
         console.log("transaksi berhasil");
-        updateStok(cart);
+        await updateStok(cart);
         setPilihPelanggan("");
         setCart([]);
         setBayar(0);
@@ -168,7 +180,7 @@ const CartPenjual = (props) => {
         setAlert(true);
         navigate("/invoice");
       });
-    } */
+    }
     if (bayar < totalHarga) {
       console.log("duit mu kurang");
     }
@@ -285,7 +297,7 @@ const CartPenjual = (props) => {
                     <button
                       type="button"
                       className="btn btn-danger"
-                      onClick={() => handleDelete(row.nama_barang)}
+                      onClick={() => handleDelete(row.id)}
                     >
                       <i className="fa-solid fa-trash-can" />
                     </button>
