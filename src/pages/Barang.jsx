@@ -10,7 +10,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import Cookies from "universal-cookie";
 import { Box, Modal } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
-import { invoke } from "@tauri-apps/api";
+/* import { invoke } from "@tauri-apps/api"; */
 
 const Barang = () => {
   const [barang, setBarang] = useState([]);
@@ -19,7 +19,7 @@ const Barang = () => {
     nama_barang: "",
     kategori: "",
     stok: 0,
-    harga: "",
+    harga: 0,
   });
   const [open, setOpen] = useState(false);
   let cookie = new Cookies();
@@ -242,7 +242,7 @@ const Barang = () => {
     nama_barang: "",
     kategori: "",
     stok: 0,
-    harga: "",
+    harga: 0,
   });
 
   const handleInputUpdate = (e) => {

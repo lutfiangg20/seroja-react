@@ -12,16 +12,7 @@
   },
   "tauri": {
     "allowlist": {
-      "all": true,
-      "shell": {
-        "scope": [
-          {
-            "name": "/bun-server/server-x86_64-pc-windows-msvc.exe",
-            "sidecar": true
-          }
-        ],
-        "sidecar": true
-      }
+      "all": true
     },
     "bundle": {
       "active": true,
@@ -30,7 +21,6 @@
       "deb": {
         "depends": []
       },
-      "externalBin": ["/bun-server/server"],
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",

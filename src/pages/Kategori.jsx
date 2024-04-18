@@ -8,7 +8,7 @@ import {
 import { GridDeleteIcon } from "@mui/x-data-grid";
 import Cookies from "universal-cookie";
 import { Tooltip } from "@mui/material";
-import { invoke } from "@tauri-apps/api";
+/* import { invoke } from "@tauri-apps/api"; */
 
 const Kategori = () => {
   const [kategori, setKategori] = useState([]);
@@ -59,8 +59,8 @@ const Kategori = () => {
     }); */
   };
 
-  const handleDelete = async (nama) => {
-    fetch(`http://localhost:3000/api/kategori/${nama}`, {
+  const handleDelete = async (id) => {
+    fetch(`http://localhost:3000/api/kategori/${id}`, {
       method: "delete",
       headers: {
         "Content-Type": "application/json",
@@ -86,12 +86,12 @@ const Kategori = () => {
       },
 
       {
-        accessorKey: "_id",
+        accessorKey: "id",
         header: "Action",
         Cell: ({ cell }) => (
           <button
             className="btn btn-danger"
-            onClick={() => handleDelete(cell.row.original.nama_kategori)}
+            onClick={() => handleDelete(cell.row.original.id)}
           >
             <Tooltip title="Hapus" placement="top">
               <GridDeleteIcon />

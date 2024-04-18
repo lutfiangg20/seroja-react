@@ -4,7 +4,7 @@ import Cart from "../components/Cart";
 import Layout from "../components/Layout";
 import PembelianButtons from "../components/PembelianButtons";
 import Cookies from "universal-cookie";
-import { invoke } from "@tauri-apps/api";
+/* import { invoke } from "@tauri-apps/api"; */
 
 /* import { useSelector } from "react-redux"; */
 

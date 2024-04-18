@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from "react";
 import { GridDeleteIcon } from "@mui/x-data-grid";
 import Cookies from "universal-cookie";
 import { Tooltip } from "@mui/material";
-import { invoke } from "@tauri-apps/api";
+/* import { invoke } from "@tauri-apps/api"; */
 
 const Pelanggan = () => {
   const [pelanggan, setPelanggan] = useState([]);
@@ -60,8 +60,8 @@ const Pelanggan = () => {
     }); */
   };
 
-  const handleDelete = (nama) => {
-    fetch(`http://localhost:3000/api/pelanggan/${nama}`, {
+  const handleDelete = (id) => {
+    fetch(`http://localhost:3000/api/pelanggan/${id}`, {
       method: "delete",
       headers: {
         "Content-Type": "application/json",
@@ -86,12 +86,12 @@ const Pelanggan = () => {
       },
 
       {
-        accessorKey: "_id",
+        accessorKey: "id",
         header: "Action",
         Cell: (cell) => (
           <button
             className="btn btn-danger"
-            onClick={() => handleDelete(cell.row.original.nama)}
+            onClick={() => handleDelete(cell.row.original.id)}
           >
             <Tooltip title="Hapus" placement="top">
               <GridDeleteIcon />

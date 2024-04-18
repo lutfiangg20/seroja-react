@@ -20,7 +20,7 @@ fn node_server(){
  
  
  
-mod barang;
+/* mod barang;
 use barang::{get_barang,post_barang,delete_barang,update_barang};
 mod auth;
 use auth::{login,token};
@@ -29,11 +29,11 @@ use kategori::{get_kategori,post_kategori,delete_kategori};
 mod pelanggan;
 use pelanggan::{get_pelanggan,post_pelanggan,delete_pelanggan};
 mod laporan;
-use laporan::{get_laporan,post_laporan};
+use laporan::{get_laporan,post_laporan}; */
 
 
 fn main() { 
-    let get_barang=get_barang::get_barang;
+    /* let get_barang=get_barang::get_barang;
     let add_barang=post_barang::add_barang;
     let delete_barang=delete_barang::delete_barang;
     let update_barang=update_barang::update_barang;
@@ -46,7 +46,7 @@ fn main() {
     let add_pelanggan=post_pelanggan::add_pelanggan;
     let delete_pelanggan=delete_pelanggan::delete_pelanggan;
     let get_laporan=get_laporan::get_laporan;
-    let add_laporan=post_laporan::add_laporan;
+    let add_laporan=post_laporan::add_laporan; */
 
     tauri::Builder::default()
     // .setup(|app|{
@@ -57,7 +57,7 @@ fn main() {
     // Ok(())
     // })
     .invoke_handler(tauri::generate_handler![
-        login,
+       /*  login,
         token,
         get_barang,
         get_kategori,
@@ -70,7 +70,7 @@ fn main() {
         add_pelanggan,
         delete_pelanggan,
         get_laporan,
-        add_laporan
+        add_laporan */
         ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

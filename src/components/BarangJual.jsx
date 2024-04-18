@@ -36,14 +36,20 @@ const BarangJual = (props) => {
         size: 100,
       },
       {
-        accessorKey: "_id", //normal accessorKey
+        accessorKey: "id", //normal accessorKey
         header: "Pilih",
         size: 100,
-        Cell: () => (
-          <button type="button" className="btn btn-success">
-            <i className="fa-solid fa-circle-plus" />
-          </button>
-        ),
+        Cell: ({ cell }) => {
+          return (
+            <button
+              type="button"
+              className="btn btn-success"
+              onClick={() => handleClick(cell.getValue())}
+            >
+              <i className="fa-solid fa-circle-plus" />
+            </button>
+          );
+        },
       },
     ],
     []
