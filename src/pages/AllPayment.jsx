@@ -8,7 +8,7 @@ import Layout from "../components/Layout";
 import Cookies from "universal-cookie";
 import { useEffect, useMemo, useState } from "react";
 import moment from "moment";
-import { invoke } from "@tauri-apps/api";
+/* import { invoke } from "@tauri-apps/api"; */
 
 const AllPayment = () => {
   const [laporan, setLaporan] = useState([]);

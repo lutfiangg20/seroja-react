@@ -13,8 +13,8 @@ import { useEffect, useState } from "react";
 import updateStok from "../utility/updateStok";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
-import { invoke } from "@tauri-apps/api";
-import moment from "moment";
+/* import { invoke } from "@tauri-apps/api";
+import moment from "moment"; */
 
 const Cart = (props) => {
   const [cart, setCart] = useState([]);
@@ -25,6 +25,7 @@ const Cart = (props) => {
     pelanggan: "ecer",
     cart: [
       {
+        id: "",
         nama_barang: "",
         harga: "",
         stok: 0,
@@ -37,7 +38,7 @@ const Cart = (props) => {
   console.log(props.barang);
   const [alert, setAlert] = useState(false);
 
-  const date = new Date();
+  /*   const date = new Date(); */
 
   const cookie = new Cookies();
   const token = cookie.get("token");
@@ -53,6 +54,8 @@ const Cart = (props) => {
           ? setCart([
               ...cart,
               {
+                id: item.id,
+                pelanggan: "ecer",
                 nama_barang: item.nama_barang,
                 harga: item.harga,
                 stok: 1,
@@ -113,9 +116,9 @@ const Cart = (props) => {
           Authorization: token,
         },
         body: JSON.stringify(invoice),
-      }).then(() => {
+      }).then(async () => {
         console.log("transaksi berhasil");
-        /* updateStok(cart); */
+        await updateStok(cart);
         setCart([]);
         setBayar(0);
         console.log("bayar", bayar);

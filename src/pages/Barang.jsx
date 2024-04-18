@@ -168,42 +168,42 @@ const Barang = () => {
         ),
       },
       {
-        accessorKey: "_id",
+        accessorKey: "id",
         header: "Action",
         Cell: ({ cell }) => (
           <span className="d-flex gap-2">
             <div className="">
-              <button
-                className="btn btn-danger "
-                onClick={() => {
-                  handleDelete(cell.row.original.id);
-                }}
-              >
-                <Tooltip title="Hapus" placement="top">
+              <Tooltip title="Hapus" placement="top">
+                <button
+                  className="btn btn-danger "
+                  onClick={() => {
+                    handleDelete(cell.row.original.id);
+                  }}
+                >
                   <GridDeleteIcon />
-                </Tooltip>
-              </button>
+                </button>
+              </Tooltip>
             </div>
             <div className="">
-              <button
-                className="btn btn-warning "
-                onClick={() => {
-                  setEditBarang({
-                    id: cell.row.original.id,
-                    nama_barang: cell.row.original.nama_barang,
-                    kategori: cell.row.original.kategori,
-                    stok: cell.row.original.stok,
-                    harga: cell.row.original.harga,
-                  });
-                  console.log(editBarang);
-                  console.log();
-                  handleOpen();
-                }}
-              >
-                <Tooltip title="Edit" placement="top">
+              <Tooltip title="Edit" placement="top">
+                <button
+                  className="btn btn-warning "
+                  onClick={() => {
+                    setEditBarang({
+                      id: cell.row.original.id,
+                      nama_barang: cell.row.original.nama_barang,
+                      kategori: cell.row.original.kategori,
+                      stok: cell.row.original.stok,
+                      harga: cell.row.original.harga,
+                    });
+                    console.log(editBarang);
+                    console.log();
+                    handleOpen();
+                  }}
+                >
                   <EditIcon />
-                </Tooltip>
-              </button>
+                </button>
+              </Tooltip>
             </div>
           </span>
         ),
@@ -426,7 +426,7 @@ const Barang = () => {
                     type="submit"
                     className="btn btn-success float-end col-sm-2"
                   >
-                    <i className="fa-solid fa-circle-plus" /> Tambah
+                    <EditIcon /> Edit
                   </button>
                 </div>
               </form>

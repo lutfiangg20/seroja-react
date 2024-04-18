@@ -4,8 +4,8 @@ const updateStok = async (cart) => {
   const cookie = new Cookies();
   const token = cookie.get("token");
 
-  await fetch("http://localhost:3000/update/stok", {
-    method: "POST",
+  await fetch("http://localhost:3000/api/barang/stock", {
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
       Authorization: token,

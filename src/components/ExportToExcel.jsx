@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import * as XLSX from "xlsx";
+import moment from "moment";
 
 const ExportToExcelButton = ({ data, fileName }) => {
   /* const formatDate = (dateString) => {
@@ -9,14 +10,15 @@ const ExportToExcelButton = ({ data, fileName }) => {
   }; */
   const filteredData = data.map((item, index) => ({
     no: index + 1,
-    nama_barang: item.nama_barang,
-    harga: item.harga,
-    total_item: item.total_item,
-    total_harga: item.total_harga,
-    diskon: item.diskon,
-    total_bayar: item.total_bayar,
-    jenis_transaksi: item.jenis_transaksi,
-    created_at: item.created_at,
+    Pelanggan: item.pelanggan,
+    "Nama Barang": item.nama_barang,
+    Harga: item.harga,
+    "Total Item": item.stok,
+    "Total Harga": item.total_harga,
+    Diskon: item.diskon,
+    /*  "Total Bayar": item.total_bayar, */
+    "Jenis Transaksi": item.jenis,
+    Tanggal: moment(item.createdAt).format("DD-MM-YYYY, HH:mm:ss "),
   }));
   const exportToExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(filteredData);

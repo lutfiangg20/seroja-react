@@ -5,10 +5,9 @@ import {
   useMaterialReactTable,
 } from "material-react-table";
 
-import ExportToExcelButton from "../components/ExportToExcel";
 import Cookies from "universal-cookie";
 import LaporanButtons from "../components/LaporanButtons";
-import { invoke } from "@tauri-apps/api";
+/* import { invoke } from "@tauri-apps/api"; */
 import moment from "moment";
 
 const Laporan = () => {
@@ -35,18 +34,6 @@ const Laporan = () => {
     }); */
   };
 
-  /* const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const options = {
-      day: "numeric",
-      month: "numeric",
-      year: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-    };
-    return new Intl.DateTimeFormat("id-ID", options).format(date);
-  }; */
-
   useEffect(() => {
     getData();
   }, []);
@@ -69,36 +56,6 @@ const Laporan = () => {
         ),
         size: 50,
       },
-      /* {
-        accessorKey: "qty",
-        header: "Total_item",
-        size: 50,
-      },
-      {
-        accessorKey: "harga",
-        header: "Harga",
-        size: 50,
-      },
-      {
-        accessorKey: "total_harga",
-        header: "Total Harga",
-        size: 50,
-      },
-      {
-        accessorKey: "diskon",
-        header: "Diskon",
-        size: 50,
-      },
-      {
-        accessorKey: "total_bayar",
-        header: "Total Bayar",
-        size: 50,
-      },
-      {
-        accessorKey: "jenis",
-        header: "Jenis Transaksi",
-        size: 50,
-      }, */
     ],
     []
   );
@@ -118,9 +75,6 @@ const Laporan = () => {
       <LaporanButtons />
       <div className="card">
         <div className="card-body">
-          <div className="d-flex justify-content-end mb-3">
-            <ExportToExcelButton data={laporan} fileName="Laporan" />
-          </div>
           <MaterialReactTable table={table} />
         </div>
       </div>
