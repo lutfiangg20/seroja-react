@@ -196,8 +196,6 @@ const Barang = () => {
                       stok: cell.row.original.stok,
                       harga: cell.row.original.harga,
                     });
-                    console.log(editBarang);
-                    console.log();
                     handleOpen();
                   }}
                 >

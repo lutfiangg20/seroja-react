@@ -10,6 +10,7 @@ import {
 import Cookies from "universal-cookie";
 import moment from "moment";
 import TambahPengeluaran from "../components/tambahPengeluaran";
+import { Button, Input } from "@mui/material";
 
 const Pengeluaran = () => {
   const [pengeluaran, setPengeluaran] = useState([]);
@@ -20,6 +21,11 @@ const Pengeluaran = () => {
     jumlah: "",
     harga: "",
     total_harga: "",
+  });
+  const [backup, setBackup] = useState([]);
+  const [formDate, setformDate] = useState({
+    start: Date.now(),
+    end: Date.now(),
   });
   let cookie = new Cookies();
   const token = cookie.get("token");
@@ -35,6 +41,7 @@ const Pengeluaran = () => {
       .then((res) => res.json())
       .then((data) => {
         setPengeluaran(data);
+        setBackup(data);
       });
   };
 
@@ -78,6 +85,9 @@ const Pengeluaran = () => {
         accessorKey: "harga",
         header: "harga",
         size: 50,
+        Cell: ({ renderedCellValue }) => (
+          <span>{formatter.format(renderedCellValue)}</span>
+        ),
       },
       {
         accessorKey: "jumlah",
@@ -88,6 +98,9 @@ const Pengeluaran = () => {
         accessorKey: "total_harga",
         header: "total_harga",
         size: 50,
+        Cell: ({ renderedCellValue }) => (
+          <span>{formatter.format(renderedCellValue)}</span>
+        ),
       },
 
       {
@@ -152,6 +165,27 @@ const Pengeluaran = () => {
     });
   };
 
+  const handleDate = async () => {
+    setPengeluaran(
+      backup.filter((item) => {
+        return (
+          moment(item.createdAt).format("DD-MM-YYYY") >=
+            moment(formDate.start).format("DD-MM-YYYY") &&
+          moment(item.createdAt).format("DD-MM-YYYY") <=
+            moment(formDate.end).format("DD-MM-YYYY")
+        );
+      })
+    );
+  };
+
+  const handleReset = async () => {
+    getData();
+    setformDate({
+      start: Date.now(),
+      end: Date.now(),
+    });
+  };
+
   const formatter = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR", // You can change this to your desired currency code
@@ -169,7 +203,45 @@ const Pengeluaran = () => {
       />
       <div className="card">
         <div className="card-body">
-          <h4>Total Pengeluaran : {formatter.format(handlePengeluaran)}</h4>
+          <div className="d-flex justify-content-between mb-3">
+            <h4>Total Pengeluaran : {formatter.format(handlePengeluaran)}</h4>
+            <div className="d-flex justify-content-between gap-4">
+              <div className="d-flex gap-2">
+                <label htmlFor="start" className="mt-2">
+                  Dari
+                </label>
+                <Input
+                  type="date"
+                  id="start"
+                  name="start"
+                  onChange={(e) =>
+                    setformDate({ ...formDate, start: e.target.value })
+                  }
+                  value={formDate.start}
+                />
+              </div>
+              <div className="d-flex gap-2">
+                <label htmlFor="end" className="mt-2">
+                  Sampai
+                </label>
+                <Input
+                  type="date"
+                  id="end"
+                  name="end"
+                  onChange={(e) =>
+                    setformDate({ ...formDate, end: e.target.value })
+                  }
+                  value={formDate.end}
+                />
+              </div>
+              <Button variant="contained" onClick={handleDate}>
+                Cari
+              </Button>
+              <Button variant="contained" onClick={handleReset}>
+                Reset
+              </Button>
+            </div>
+          </div>
           <MaterialReactTable table={table} />
         </div>
       </div>

@@ -8,14 +8,21 @@ import Layout from "../components/Layout";
 import Cookies from "universal-cookie";
 import { useEffect, useMemo, useState } from "react";
 import moment from "moment";
+import { Button, Input } from "@mui/material";
 /* import { invoke } from "@tauri-apps/api"; */
 
 const AllPayment = () => {
   const [laporan, setLaporan] = useState([]);
+  const [backup, setBackup] = useState([]);
+  const [formDate, setformDate] = useState({
+    start: Date.now(),
+    end: Date.now(),
+  });
   let cookie = new Cookies();
+
   const token = cookie.get("token");
   const getData = async () => {
-    await fetch("http://localhost:3000/api/laporan", {
+    await fetch("http://localhost:3000/api/cart", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -24,12 +31,13 @@ const AllPayment = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        setLaporan([]);
-        data.map((item) => {
+        setLaporan(data);
+        setBackup(data);
+        /* data.map((item) => {
           item.cart.map((cart) => {
             setLaporan((laporan) => [...laporan, cart]);
           });
-        });
+        }); */
       });
 
     /* invoke("get_laporan", {}).then((res) => {
@@ -46,6 +54,27 @@ const AllPayment = () => {
   useEffect(() => {
     getData();
   }, []);
+
+  const handleDate = async () => {
+    setLaporan(
+      backup.filter((item) => {
+        return (
+          moment(item.createdAt).format("DD-MM-YYYY") >=
+            moment(formDate.start).format("DD-MM-YYYY") &&
+          moment(item.createdAt).format("DD-MM-YYYY") <=
+            moment(formDate.end).format("DD-MM-YYYY")
+        );
+      })
+    );
+  };
+
+  const handleReset = async () => {
+    getData();
+    setformDate({
+      start: Date.now(),
+      end: Date.now(),
+    });
+  };
 
   const columns = useMemo(
     () => [
@@ -131,7 +160,43 @@ const AllPayment = () => {
         <div className="card-body">
           <div className="d-flex justify-content-between mb-3">
             <h4>Total Pemasukan : {formatter.format(handlePemasukan)}</h4>
-            <ExportToExcelButton data={laporan} fileName="Laporan" />
+            <div className="d-flex justify-content-between gap-4">
+              <div className="d-flex gap-2">
+                <label htmlFor="start" className="mt-2">
+                  Dari
+                </label>
+                <Input
+                  type="date"
+                  id="start"
+                  name="start"
+                  onChange={(e) =>
+                    setformDate({ ...formDate, start: e.target.value })
+                  }
+                  value={formDate.start}
+                />
+              </div>
+              <div className="d-flex gap-2">
+                <label htmlFor="end" className="mt-2">
+                  Sampai
+                </label>
+                <Input
+                  type="date"
+                  id="end"
+                  name="end"
+                  onChange={(e) =>
+                    setformDate({ ...formDate, end: e.target.value })
+                  }
+                  value={formDate.end}
+                />
+              </div>
+              <Button variant="contained" onClick={handleDate}>
+                Cari
+              </Button>
+              <Button variant="contained" onClick={handleReset}>
+                Reset
+              </Button>
+              <ExportToExcelButton data={laporan} fileName="Laporan" />
+            </div>
           </div>
           <MaterialReactTable table={table} />
         </div>

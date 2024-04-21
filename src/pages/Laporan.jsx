@@ -26,7 +26,6 @@ const Laporan = () => {
       .then((res) => res.json())
       .then((data) => {
         setLaporan(data);
-        console.log(data);
       });
     /* invoke("get_laporan", {}).then((res) => {
       res = JSON.parse(res);

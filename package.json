@@ -1,6 +1,6 @@
 {
   "name": "seroja-react",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "proxy": "http://localhost:3000/",

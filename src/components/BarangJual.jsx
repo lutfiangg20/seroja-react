@@ -58,6 +58,12 @@ const BarangJual = (props) => {
   const table = useMaterialReactTable({
     columns,
     data: props.barang, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: 5,
+      },
+    },
     muiTableBodyCellProps: ({ cell }) => ({
       onClick: () => {
         handleClick(cell.row.original.id);
