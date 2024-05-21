@@ -108,6 +108,7 @@ const Cart = (props) => {
   const handleBayar = async (e) => {
     e.preventDefault();
     localStorage.setItem("invoice", JSON.stringify(invoice));
+    localStorage.setItem("kembalian", bayar - invoice.totalHarga);
 
     if (bayar >= totalHarga) {
       await fetch("http://localhost:3000/api/laporan", {

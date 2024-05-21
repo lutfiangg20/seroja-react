@@ -150,6 +150,7 @@ const CartPenjual = (props) => {
   const handleBayar = (e) => {
     e.preventDefault();
     localStorage.setItem("invoice", JSON.stringify(invoice));
+    localStorage.setItem("kembalian", bayar - invoice.totalHarga);
 
     /* invoice.created_at = date;
     const newCart = cart.map((item) => ({

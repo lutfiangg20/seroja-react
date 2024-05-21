@@ -23,6 +23,7 @@ import AllPayment from "./pages/AllPayment.jsx";
 // import { useEffect } from "react";
 // import { invoke } from "@tauri-apps/api";
 import Pengeluaran from "./pages/Pengeluaran.jsx";
+import "./App.css";
 
 function App() {
   /* useEffect(() => {

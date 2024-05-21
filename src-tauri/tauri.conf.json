@@ -7,8 +7,8 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "seroja-react",
-    "version": "0.1.0"
+    "productName": "Kasir Seroja",
+    "version": "1.0.0"
   },
   "tauri": {
     "allowlist": {
@@ -22,11 +22,11 @@
         "depends": []
       },
       "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
+        "icons/seroja.png",
+        "icons/seroja.png",
+        "icons/seroja.png",
+        "icons/seroja.ico",
+        "icons/seroja.ico"
       ],
       "identifier": "seroja",
       "longDescription": "",
@@ -55,11 +55,11 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 720,
         "maximizable": true,
         "minimizable": true,
         "title": "Seroja",
-        "width": 1280
+        "maximized": true,
+        "resizable": false
       }
     ]
   }

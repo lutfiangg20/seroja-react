@@ -18,8 +18,8 @@ const Barang = () => {
   const [formData, setFormData] = useState({
     nama_barang: "",
     kategori: "",
-    stok: 0,
-    harga: 0,
+    stok: null,
+    harga: null,
   });
   const [open, setOpen] = useState(false);
   let cookie = new Cookies();
@@ -46,8 +46,8 @@ const Barang = () => {
         setFormData({
           nama_barang: "",
           kategori: "",
-          stok: 0,
-          harga: 0,
+          stok: "",
+          harga: "",
         });
       })
       .catch((err) => console.log(err));
@@ -295,6 +295,7 @@ const Barang = () => {
                     aria-describedby="emailHelp"
                     onChange={handleInput}
                     value={formData.nama_barang}
+                    required
                   />
                 </div>
                 <div className="col-sm-2">
@@ -306,6 +307,7 @@ const Barang = () => {
                     name="kategori"
                     onChange={handleInput}
                     value={formData.kategori}
+                    required
                     /*  key={formData.kategori} */
                   >
                     <option value="" disabled selected>
@@ -320,13 +322,15 @@ const Barang = () => {
                 </div>
                 <div className="col-sm-2">
                   <input
-                    type="number"
+                    type="text"
                     className="form-control"
                     id="stok"
                     name="stok"
                     placeholder="Stok"
+                    accept="number"
                     onChange={handleInput}
                     value={formData.stok}
+                    required
                   />
                 </div>
                 <div className="col-sm-2">
@@ -338,6 +342,7 @@ const Barang = () => {
                     placeholder="Harga"
                     onChange={handleInput}
                     value={formData.harga}
+                    required
                   />
                 </div>
                 <button

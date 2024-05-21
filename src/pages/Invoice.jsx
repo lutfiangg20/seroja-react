@@ -1,15 +1,9 @@
-import {
-  Paper,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
 import { useEffect } from "react";
 
 const Invoice = () => {
   const invoice = JSON.parse(localStorage.getItem("invoice"));
+  const kembalian = localStorage.getItem("kembalian");
+  console.log("ls : ", invoice);
 
   useEffect(() => {
     window.print();
@@ -19,78 +13,51 @@ const Invoice = () => {
 
   return (
     <>
-      {/* <div className="d-flex justify-content-center">
-        <div>
-          <table>
-            <thead>
-              <tr>
-                <th width={140}>Nama Pembeli :</th>
-                <th>Umum</th>
-              </tr>
-              <tr>
-                <th width={120}>Nama Barang</th>
-                <th width={100}>Harga</th>
-                <th width={100}>Jumlah</th>
-                <th width={100}>Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {invoice.cart.map((row, index) => (
-                <tr key={index}>
-                  <td>{row.nama_barang}</td>
-                  <td>Rp. {row.harga}</td>
-                  <td>x {row.stok}</td>
-                  <td>Rp. {row.total_harga}</td>
-                </tr>
-              ))}
-              <tr>
-                <td colSpan={3}>Total</td>
-                <td>Rp. {invoice.totalHarga}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div> */}
-      <TableContainer component={Paper}>
-        <TableContainer sx={{ minWidth: 400 }} aria-label="spanning table">
-          <TableHead>
-            <TableRow>
-              <TableCell width={140}>Nama Pembeli :</TableCell>
-              <TableCell width={100}>{invoice.pelanggan}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell width={100}>Nama Barang</TableCell>
-              <TableCell width={100} align="right">
-                Harga.
-              </TableCell>
-              <TableCell width={100} align="right">
-                Jumlah
-              </TableCell>
-              <TableCell width={100} align="right">
-                Total
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {invoice.cart.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>{row.nama_barang}</TableCell>
-                <TableCell align="right">Rp. {row.harga}</TableCell>
-                <TableCell align="center">x {row.stok}</TableCell>
-                <TableCell align="right">Rp. {row.total_harga}</TableCell>
-              </TableRow>
-            ))}
-
-            <TableRow>
-              <TableCell align="right" colSpan={3}>
-                Total Harga
-              </TableCell>
-              <TableCell align="right">Rp. {invoice.totalHarga}</TableCell>
-              <TableCell align="right"></TableCell>
-            </TableRow>
-          </TableBody>
-        </TableContainer>
-      </TableContainer>
+      <h2 className="mb-3 ml-5 pl-5">SEROJA</h2>
+      <table className="mb-2">
+        <thead>
+          <th>
+            Pembeli :{" "}
+            <span className="text-uppercase">{invoice.pelanggan}</span>
+          </th>
+        </thead>
+        {invoice.cart.map((row, index) => (
+          <tbody key={index}>
+            <tr>
+              <th colSpan={2} className="text-uppercase">
+                {row.nama_barang}
+              </th>
+            </tr>
+            <tr>
+              <td>
+                {row.stok} x Rp. {row.harga}{" "}
+                {row.diskon ? `- Rp. ${row.diskon}` : ""}=
+              </td>
+              <td> Rp. {row.total_harga}</td>
+            </tr>
+          </tbody>
+        ))}
+      </table>
+      <hr />
+      <table style={{ width: "20%" }}>
+        <tbody>
+          <tr>
+            <td>Total Bayar : </td>
+            <td>Rp. {invoice.totalHarga}</td>
+          </tr>
+          <tr>
+            <td>Kembalian : </td>
+            <td>Rp. {kembalian}</td>
+          </tr>
+        </tbody>
+      </table>
+      <h2 className="ml-5 pl-1 mt-5 mb-5">TERIMA KASIH</h2>
+      <br />
+      <div>
+        <u>
+          ...............................................................................................
+        </u>
+      </div>
     </>
   );
 };
