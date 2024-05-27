@@ -24,6 +24,7 @@ import AllPayment from "./pages/AllPayment.jsx";
 // import { invoke } from "@tauri-apps/api";
 import Pengeluaran from "./pages/Pengeluaran.jsx";
 import "./App.css";
+import Ecer2 from "./pages/Ecer2.jsx";
 
 function App() {
   /* useEffect(() => {
@@ -59,6 +60,14 @@ function App() {
             element={
               <RequireAuth>
                 <Ecer />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/kasir/ecer2"
+            element={
+              <RequireAuth>
+                <Ecer2 />
               </RequireAuth>
             }
           />
